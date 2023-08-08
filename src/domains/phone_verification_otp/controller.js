@@ -34,7 +34,7 @@ const verifySmsOTP = async ({otp,phone, countryCode = 234}) => {
                 to: `+${countryCode}${phone} `,
                 code:otp,
             });
-            if(verifyRes?.valid === false){
+            if(verifyRes?.valid === false){ 
                 throw Error("Invalid otp code");
             }
             return {
