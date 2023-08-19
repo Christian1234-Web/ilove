@@ -8,7 +8,7 @@ const comparedHashedData = require("../../util/compareHashedData");
 
 
 
-const sendOTPVerificationEmail = async ({ _id, email }) => {
+const sendOTPVerificationEmail = async ({ userId, email }) => {
 try{
         
     const otp = await generateOTP();
@@ -24,7 +24,7 @@ try{
     const hashedOTP = await hashData(otp);
 
     const newOTPVerification = await new UserOTPVerification({
-    userId:_id,
+    userId,
     otp:hashedOTP,
     createdAt: Date.now(),
     expiresAt: Date.now() + 600000,
@@ -43,18 +43,18 @@ catch(err){
 }
 }
 
-const verifyEmailOTP = async ({opt,email, userId}, res) =>{
+const verifyEmailOTP = async ({otp, userId}) =>{
     try{
        // checking if opt exist
-    const existingUser = await UserOTPVerification.findOne({_id:userId});
+    const existingUser = await UserOTPVerification.findOne({userId});
     if(existingUser){
-        const hashedPass = existingUser.password;
+        const hashedPass = existingUser.otp;
         const comparedOtp = await comparedHashedData(otp,hashedPass);
         if(comparedOtp === otp){
             // verified success
             const user = User.findOne({_id:userId});
             user.emailerification = true;
-            await  UserOTPVerification.deleteMany({_id:userId})
+            await  UserOTPVerification.deleteMany({_id:userId});
             return {
                 emailerification: user.emailerification,
                 userId: user._id,

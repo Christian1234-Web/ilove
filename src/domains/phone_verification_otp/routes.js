@@ -5,14 +5,14 @@ const  {sendPhoneSmsOTP, verifySmsOTP} = require("./controller");
 router.post("/send-otp", async (req,res)=> {
 
     try{
-    const {phone} = req.body;
-        if(!phone){
+    const {userId} = req.body;
+        if(!userId){
             throw  Error("Empty inputs fields")
         }
         const smsOtp = await sendPhoneSmsOTP(req.body);
         res.json({
-            satus:"SUCCESS",
-            message: " SMS Code sent",
+            status:"SUCCESS",
+            message: "SMS Code sent",
             data:smsOtp
         })
     }
@@ -26,13 +26,13 @@ router.post("/send-otp", async (req,res)=> {
 router.post("/resend-otp", async (req,res)=> {
    
     try{
-        const {phone} = req.body;
-        if(!phone){
+        const {userId} = req.body;
+        if(!userId){
             throw  Error("Empty inputs fields")
         }
-        const smsOtp = await sendPhoneSmsOTP(req.body);
+        const smsOtp = await verifySmsOTP(req.body);
         res.json({
-            satus:"SUCCESS",
+            status:"SUCCESS",
             message: " SMS Code sent",
             data:smsOtp
         })
@@ -48,13 +48,13 @@ router.post("/resend-otp", async (req,res)=> {
 router.post("/verify-otp", async (req,res)=> {
    
     try{
-        const {otp,phone} = req.body;
-        if(!otp|| !phone){
+        const {otp,userId} = req.body;
+        if(!otp|| !userId){
             throw  Error("Empty inputs fields")
         }
         const emailOtp = await verifySmsOTP(req.body);
         res.json({
-            satus:"SUCCESS",
+            status:"SUCCESS",
             message: "Phone Number Verified",
             data:emailOtp
         })

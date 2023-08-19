@@ -1,8 +1,7 @@
 const express = require("express");
-const { createNewUser, getAllUser } = require("./controller");
+const { createNewUser, getAllUser, loginUser,forgetPassword, updateUser,getSingleUser } = require("./controller");
 const router = express.Router();
-// const {sendOTPVerificationEmail} = require ("../email_verification_otp/controller");
-
+// const sendOTPVerificationEmail = require("../email_verification_otp/controller")
 //signup
 
 router.post("/signup", async (req, res) => {
@@ -32,7 +31,7 @@ router.post("/signup", async (req, res) => {
         // const emailData = await sendOTPVerificationEmail(newUser);
 
         res.json({
-            satus:"PENDING",
+            status:"PENDING",
             message:"Verification email sent",
             // data:emailData
         })
@@ -41,28 +40,97 @@ router.post("/signup", async (req, res) => {
 }
     catch(err){
         res.json({
-            satus:"FAILED",
+            status:"FAILED",
             error:err.message
         }) 
     }
 });
-
-router.get("/users", async (req,res)=> {
+// signin
+router.post("/signin", async (req,res) => {
+    try{
+       const response = await loginUser(req.body);
+       
+       res.json({
+        status:"SUCCESS",
+        message: "Sigin successful",
+        data:response
+       });
+    }
+    catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+})
+// all user
+router.get("/all", async (req,res)=> {
     try{
         const allusers = await getAllUser();
         // const emailData = await sendOTPVerificationEmail({_id:'112121',email:"ebukaugwulast@gmail.com"});
         res.json({
-            satus:"SUCCESS",
+            status:"SUCCESS",
             data:allusers
                 })
 
     }catch(err){
         res.json({
-            satus:"FAILED",
+            status:"FAILED",
             error:err.message
         }) 
     }
     
+});
+// single user
+router.get("/single/:id", async (req,res)=> {
+    try{
+        const response = await getSingleUser(req.params.id);
+        res.json({
+            status:"SUCCESS",
+            data:response
+                })
+
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            error:err.message
+        }) 
+    }
+    
+});
+// forget password
+router.post("/forget-password", async (req,res) => {
+    try{
+        const response = await forgetPassword(req.body);
+        res.json({
+            status:"SUCCESS",
+            message:"Mail has been sent, check your email for otp",
+            data:response
+        })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+
+});
+// update user
+router.put("/update/:id", async (req,res)=> {
+    try{
+        const response = await updateUser(req.params.id,req.body);
+
+        res.json({
+            status:"SUCCESS",
+            message:"User Updated",
+            data:response
+        })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
 })
 
 module.exports = router;
