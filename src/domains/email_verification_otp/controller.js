@@ -65,7 +65,9 @@ const verifyEmailOTP = async ({otp, userId}) =>{
         else{
             throw new Error("Invalid otp code")
         }
-    } 
+    } else{
+        throw Error("User not found");
+    }
     }
     catch(err){
         throw err;
