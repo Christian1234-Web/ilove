@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-import {sendOTPVerificationEmail,verifyEmailOTP} from "./controller"
+const {sendOTPVerificationEmail,verifyEmailOTP} = require("./controller")
 
 router.post("/resend-otp", async (req,res)=> {
     try{
