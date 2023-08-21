@@ -4,7 +4,8 @@ const {createWallet, getAllWallet,getUserWallet} = require("./controller");
 
 router.post("/new", async (req,res)=> {
     try{
-        const response = await createWallet(req.body);
+        const {userId} = req.body;
+        const response = await createWallet(userId);
         res.json({
             status:"SUCCESS",
             message: "Wallet  created",

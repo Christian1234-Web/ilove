@@ -1,7 +1,8 @@
 const express = require("express");
-const { createNewUser, getAllUser, loginUser,forgetPassword, updateUser,getSingleUser } = require("./controller");
+const { createNewUser, getAllUser, deleteUser,loginUser,forgetPassword, updateUser,getSingleUser } = require("./controller");
 const router = express.Router();
-// const sendOTPVerificationEmail = require("../email_verification_otp/controller")
+const {sendOTPVerificationEmail} = require("../email_verification_otp/controller");
+const { createWallet } = require("../../domains/wallet/controller");
 //signup
 
 router.post("/signup", async (req, res) => {
@@ -28,12 +29,13 @@ router.post("/signup", async (req, res) => {
             phone,
             addresss
         });
-        // const emailData = await sendOTPVerificationEmail(newUser);
+        const wallet = await createWallet(newUser._id)
+        const emailData = await sendOTPVerificationEmail(newUser);
 
         res.json({
             status:"PENDING",
             message:"Verification email sent",
-            // data:emailData
+            data:emailData
         })
 
     }
@@ -131,6 +133,23 @@ router.put("/update/:id", async (req,res)=> {
             message:err.message
         })
     }
-})
+});
+// delete user
+router.delete("/delete/:id", async (req,res)=> {
+    try{
+        const response = await deleteUser(req.params.id);
+
+        res.json({
+            status:"SUCCESS",
+            message:"User deleted",
+            data:response
+        })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+});
 
 module.exports = router;

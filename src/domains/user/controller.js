@@ -123,11 +123,21 @@ const forgetPassword = async ({email}) => {
             html:`<p>Enter <b>${otp}</b> in the app to continue with fhe recovery password process
             <p>This code <b>expires in 10 minutes</b>.</p>`
             };
-        // await sendMail(mailoptions);
+        await sendMail(mailoptions);
         return {username: existingUser.username};
     }catch(err){
         throw err;
     }
 }
+const deleteUser = async (userId) => {
+    try{
+        const user = await User.deleteOne({_id:userId});
+        return {
+            user
+        }
+    }catch(err){
+        throw err;
+    }
+}
 
-module.exports = {createNewUser,getAllUser,loginUser,forgetPassword,logoutUser,updateUser,getSingleUser}
+module.exports = {createNewUser,getAllUser,loginUser,forgetPassword,logoutUser,updateUser,getSingleUser,deleteUser}

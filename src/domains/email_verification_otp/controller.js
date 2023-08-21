@@ -8,7 +8,7 @@ const comparedHashedData = require("../../util/compareHashedData");
 
 
 
-const sendOTPVerificationEmail = async ({ userId, email }) => {
+const sendOTPVerificationEmail = async ({ _id, email }) => {
 try{
         
     const otp = await generateOTP();
@@ -24,7 +24,7 @@ try{
     const hashedOTP = await hashData(otp);
 
     const newOTPVerification = await new UserOTPVerification({
-    userId,
+    userId:_id,
     otp:hashedOTP,
     createdAt: Date.now(),
     expiresAt: Date.now() + 600000,
@@ -72,4 +72,4 @@ const verifyEmailOTP = async ({otp, userId}) =>{
     }
 }
 
-module.exports = {sendOTPVerificationEmail}
+module.exports = {sendOTPVerificationEmail,verifyEmailOTP}

@@ -30,7 +30,7 @@ router.post("/resend-otp", async (req,res)=> {
         if(!userId){
             throw  Error("Empty inputs fields")
         }
-        const smsOtp = await verifySmsOTP(req.body);
+        const smsOtp = await sendPhoneSmsOTP(req.body);
         res.json({
             status:"SUCCESS",
             message: " SMS Code sent",

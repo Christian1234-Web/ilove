@@ -2,7 +2,7 @@ const Wallet = require("./model");
 
 
 
-const createWallet = async ({ userId }) => {
+const createWallet = async (userId ) => {
 try{
         
     // create wallet
