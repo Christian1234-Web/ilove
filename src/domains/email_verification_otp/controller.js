@@ -50,7 +50,7 @@ const verifyEmailOTP = async ({otp, userId}) =>{
     if(existingUser){
         const hashedPass = existingUser.otp;
         const comparedOtp = await comparedHashedData(otp,hashedPass);
-        if(comparedOtp === otp){
+        if(comparedOtp === true) {
             // verified success
             const user = User.findOne({_id:userId});
             user.emailerification = true;
