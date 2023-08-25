@@ -17,7 +17,7 @@ const createNewUser = async (data) => {
          else {
             // hash password
             const hashedPassword = await hashData(password);
-        // Try to create new user
+             // Try to create new user
             const newUser = new User({
                 username,
                 email,
@@ -124,7 +124,25 @@ const forgetPassword = async ({email}) => {
             <p>This code <b>expires in 10 minutes</b>.</p>`
             };
         await sendMail(mailoptions);
-        return {username: existingUser.username};
+        return {
+            username: existingUser.username,
+            userId:existingUser_id
+        };
+    }catch(err){
+        throw err;
+    }
+}
+const updatePassword = async ({userId,password}) =>  {
+   
+    try{
+        const user = await User.findOne({_id:userId}); 
+        if(!user) {
+            throw Error("User Account not found");
+        }
+        const hashPassword = await hashData(password);
+        user.password = hashPassword;
+        user.save();
+        return {userId}
     }catch(err){
         throw err;
     }
@@ -140,4 +158,4 @@ const deleteUser = async (userId) => {
     }
 }
 
-module.exports = {createNewUser,getAllUser,loginUser,forgetPassword,logoutUser,updateUser,getSingleUser,deleteUser}
+module.exports = {createNewUser,updatePassword,getAllUser,loginUser,forgetPassword,logoutUser,updateUser,getSingleUser,deleteUser}

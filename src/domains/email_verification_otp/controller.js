@@ -8,7 +8,7 @@ const comparedHashedData = require("../../util/compareHashedData");
 
 
 
-const sendOTPVerificationEmail = async ({ _id, email }) => {
+const sendOTPVerificationEmail = async ({ userId, email }) => {
 try{
         
     const otp = await generateOTP();
@@ -24,7 +24,7 @@ try{
     const hashedOTP = await hashData(otp);
 
     const newOTPVerification = await new UserOTPVerification({
-    userId:_id,
+    userId,
     otp:hashedOTP,
     createdAt: Date.now(),
     expiresAt: Date.now() + 600000,
@@ -34,7 +34,7 @@ try{
     await newOTPVerification.save();
     await  sendMail(mailoptions);
     return {
-        userId:_id,
+        userId,
         email
     }
 }
@@ -46,27 +46,33 @@ catch(err){
 const verifyEmailOTP = async ({otp, userId}) =>{
     try{
        // checking if opt exist
-    const existingUser = await UserOTPVerification.findOne({userId});
-    if(existingUser){
-        const hashedPass = existingUser.otp;
-        const comparedOtp = await comparedHashedData(otp,hashedPass);
-        if(comparedOtp === true) {
-            // verified success
-            const user = User.findOne({_id:userId});
-            user.emailerification = true;
-            await  UserOTPVerification.deleteMany({_id:userId});
-            return {
-                emailerification: user.emailerification,
-                userId: user._id,
-                email:user.email
+     const userOtpRecords = await UserOTPVerification.find({userId});
+    if(userOtpRecords.length >= 1) {
+        const {expiresAt} = userOtpRecords[0];
+        const hashedPass = userOtpRecords[0].otp;
+        if(expiresAt < Date.now()){
+            //user otp record
+            await  UserOTPVerification.deleteMany({userId});
+            throw Error("Code has expired. please request again")
+
+        }else{
+            const validOtp = await comparedHashedData(otp,hashedPass);
+            if(!validOtp) {
+                throw Error("Invalid code passed. Check your inbox")
+            }else{
+                  // verified success
+                  await User.updateOne({_id:userId}, {emailVerification:true});
+                  await  UserOTPVerification.deleteMany({userId});
+                  return {
+                      emailerification: 'true',
+                      userId,
+                  }
             }
         }
-        // check expired otp
-        else{
-            throw new Error("Invalid otp code")
-        }
+
     } else{
-        throw Error("User not found");
+        throw Error("Account record dosnt exist or has been verified already. please sign up or login ")
+
     }
     }
     catch(err){

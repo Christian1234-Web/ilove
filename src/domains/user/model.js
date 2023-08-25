@@ -11,7 +11,7 @@ const UserSchema = new mongoose.Schema({
 	blockedUsers: { type: Array },
 	interest: { type: Array },
 	phoneVerification: { type: Boolean, default:false },
-	emailerification: { type: Boolean, default:false },
+	emailVerification: { type: Boolean, default:false },
 	faceVerification: { type: Boolean, default:false },
 	kycVerification: { type: Boolean, default:false },
 	phone: { type: Number, required: true, unique: true, maxlength: 12 },

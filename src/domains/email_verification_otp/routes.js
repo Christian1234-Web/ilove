@@ -21,6 +21,10 @@ router.post("/resend-otp", async (req,res)=> {
 
 router.post("/verify-otp", async (req,res)=> {
     try{
+        const {otp} = req.body;
+        if(!otp) {
+            throw Error("Empty otp not allowed");
+        }
         const emailOtp = await verifyEmailOTP(req.body);
         res.json({
             status:"SUCCESS",

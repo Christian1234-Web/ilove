@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewUser, getAllUser, deleteUser,loginUser,forgetPassword, updateUser,getSingleUser } = require("./controller");
+const { createNewUser, getAllUser, deleteUser,loginUser,forgetPassword,updatePassword, updateUser,getSingleUser } = require("./controller");
 const router = express.Router();
 const {sendOTPVerificationEmail} = require("../email_verification_otp/controller");
 const { createWallet } = require("../../domains/wallet/controller");
@@ -117,6 +117,26 @@ router.post("/forget-password", async (req,res) => {
     }
 
 });
+router.post("/update-password", async (req,res)=> {
+    try{
+        let {password} = req.body;
+        password = password.trim();
+
+        if(password.length < 4) {
+            throw Error("Password is too short!");
+        }
+    const response = await updatePassword(req.body);
+    res.json({
+        status:"SUCCESS",
+        message:response
+    })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+})
 // update user
 router.put("/update/:id", async (req,res)=> {
     try{
@@ -151,5 +171,6 @@ router.delete("/delete/:id", async (req,res)=> {
         })
     }
 });
+
 
 module.exports = router;
