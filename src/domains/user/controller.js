@@ -27,7 +27,7 @@ const createNewUser = async (data) => {
             });
             // save user
             const createdUser = await newUser.save();
-            return createdUser;
+            return createdUser; 
             
          }
         

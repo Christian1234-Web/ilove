@@ -12,6 +12,7 @@ const flutterwaveRoutes = require("../domains/flutterwave");
 const paystackRoutes = require("../domains/paystack");
 const walletTransactionRoutes = require("../domains/wallet_transaction");
 const transactionRoutes = require("../domains/transaction");
+const ImageRoutes = require("../domains/upload_image");
 
 
 router.use("/user", userRoutes)
@@ -24,6 +25,7 @@ router.use("/paystack", paystackRoutes)
 router.use("/wallet-transaction", walletTransactionRoutes)
 router.use("/transaction", transactionRoutes) 
 router.use("/interest", interestRoutes)
+router.use("/upload", ImageRoutes)
 
 
 

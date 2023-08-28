@@ -14,7 +14,6 @@ if(error) {
 console.log(error,'errorSS');
 } else {
 console.log("Ready for messages");
-console.log(success);
 }
 });
 

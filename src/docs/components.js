@@ -7,6 +7,12 @@ module.exports = {
             description: "An id", // desc
             example: "64d0f745b57d80d91f3aa3e0", // example of an id
           },
+          // file
+          file: {
+            type: "file", // data type
+            description: "a  image", // desc
+            required: true
+          },
     // email model
     email: {
         type: "object", // data type
@@ -55,43 +61,59 @@ module.exports = {
               }
         },
       },
-       //signup user
-     Signup: {
-        type: "object", // data type
-        properties: {
-          username: {
-              type: "string", // data-type
-              description: "user name", // desc
-              example: "12121", // example of an id
-              require
-            },
-            email: {
+        // update user passsword
+        UpdatePassword: {
+          type: "object", // data type
+            properties: {
+              userId: {
                 type: "string", // data-type
-                description: "user email", // desc
-                example: "chris@gmail.com", // example of an id
-                require
-              },
-              
-              phone: {
-                type: "number", // data-type
-                description: "user phone number", // desc
-                example: "12121", // example of an id
-                require
-              },
-              address: {
-                type: "string", // data-type
-                description: "user address", // desc
-                example: "new city", // example of an id
-                require
+                description: "user identification number", // desc
+                example: "77676544334", // example of an id
               },
               password: {
+                  type: "string", // data-type
+                  description: "user password", // desc
+                  example: "12121", // example of an id
+                },
+            },
+        }, 
+        //signup user
+      Signup: {
+          type: "object", // data type
+          properties: {
+            username: {
                 type: "string", // data-type
-                description: "user password", // desc
+                description: "user name", // desc
                 example: "12121", // example of an id
                 require
               },
+              email: {
+                  type: "string", // data-type
+                  description: "user email", // desc
+                  example: "chris@gmail.com", // example of an id
+                  require
+                },
+                
+                phone: {
+                  type: "number", // data-type
+                  description: "user phone number", // desc
+                  example: "12121", // example of an id
+                  require
+                },
+                address: {
+                  type: "string", // data-type
+                  description: "user address", // desc
+                  example: "new city", // example of an id
+                  require
+                },
+                password: {
+                  type: "string", // data-type
+                  description: "user password", // desc
+                  example: "12121", // example of an id
+                  require
+                },
+          },
         },
-      },
       // signin user
       SiginUser: {
         type: "object", // data type

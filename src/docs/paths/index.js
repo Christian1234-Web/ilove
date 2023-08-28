@@ -32,6 +32,11 @@ const withdraw = require('../flutterwave/withdraw');
 const getAllBanks = require('../flutterwave/get-all-banks');
 // paystack
 const paystackVerifyPayment = require("../paystack/verify-payment");
+const updatePassword = require('../user/update-password');
+const uploadProfile = require('../image/upload-profile');
+const uploadCover = require('../image/upload-cover');
+const getProfile = require('../image/get-profile');
+const getCover = require('../image/get-cover');
 
 
 // module
@@ -66,6 +71,9 @@ module.exports = {
         },
         '/user/update/{id}':{
             ...updateUser
+        },
+        '/user/update-password' : {
+            ...updatePassword
         },
         // interest
         '/interest/all':{
@@ -125,6 +133,19 @@ module.exports = {
         // paystack
         '/paystack/verify/{ref}':{
             ...paystackVerifyPayment,
+        },
+        // cover and profile pics
+        '/upload/profile/{id}':{
+            ...uploadProfile,
+        },
+        '/upload/cover/{id}':{
+            ...uploadCover,
+        },
+        '/upload/profile/all':{
+            ...getProfile,
+        },
+        '/upload/cover/all':{
+            ...getCover,
         },
     }
 }
