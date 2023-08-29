@@ -42,7 +42,7 @@ module.exports = {
               },
               
               phone: {
-                type: "number", // data-type
+                type: "string", // data-type
                 description: "user phone number", // desc
                 example: "12121", // example of an id
                 require
