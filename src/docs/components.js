@@ -307,6 +307,22 @@ module.exports = {
               },
             },
           },
+          //chat
+          Chat:{
+            type: "object", // data type
+            properties: {
+              firstId: {
+                type: "string", // data type
+                description: "first user id", // desc
+                example: "13434343", // example of a id
+              },
+              secondId: {
+                type: "string", // data type
+                description: "second user id", // desc
+                example: "12345", // example of a example
+              },
+            },
+          },
         // error model
         Error: {
           type: "object", //data type

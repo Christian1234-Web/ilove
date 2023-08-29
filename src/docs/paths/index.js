@@ -37,6 +37,9 @@ const uploadProfile = require('../image/upload-profile');
 const uploadCover = require('../image/upload-cover');
 const getProfile = require('../image/get-profile');
 const getCover = require('../image/get-cover');
+const createChat = require('../chat/create-chat');
+const getUserChat = require('../chat/get-user-chat');
+const getUserOneTwo = require('../chat/get-user-one-two');
 
 
 // module
@@ -146,6 +149,16 @@ module.exports = {
         },
         '/upload/cover/all':{
             ...getCover,
+        },
+        //chat
+        "/chat/new":{
+            ...createChat
+        },
+        '/chat/user/{userId}':{
+            ...getUserChat,
+        },
+        '/chat/find/{firstId}/{secondId}':{
+            ...getUserOneTwo,
         },
     }
 }
