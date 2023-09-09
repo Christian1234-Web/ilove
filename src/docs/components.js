@@ -31,7 +31,7 @@ module.exports = {
           username: {
               type: "string", // data-type
               description: "user name", // desc
-              example: "12121", // example of an id
+              example: "b8987hgh7878hh", // example of an id
               require
             },
             email: {
@@ -44,7 +44,7 @@ module.exports = {
               phone: {
                 type: "string", // data-type
                 description: "user phone number", // desc
-                example: "12121", // example of an id
+                example: "8077655444", // example of an id
                 require
               },
               address: {
@@ -84,7 +84,7 @@ module.exports = {
             username: {
                 type: "string", // data-type
                 description: "user name", // desc
-                example: "12121", // example of an id
+                example: "bh8888s88hshs8", // example of an id
                 require
               },
               email: {
@@ -95,9 +95,9 @@ module.exports = {
                 },
                 
                 phone: {
-                  type: "number", // data-type
+                  type: "string", // data-type
                   description: "user phone number", // desc
-                  example: "12121", // example of an id
+                  example: "80776555", // example of an id
                   require
                 },
                 address: {

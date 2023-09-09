@@ -14,11 +14,11 @@ const UserSchema = new mongoose.Schema({
 	emailVerification: { type: Boolean, default:false },
 	faceVerification: { type: Boolean, default:false },
 	kycVerification: { type: Boolean, default:false },
-	phone: { type: Number, required: true, unique: true, maxlength: 12 },
+	phone: { type: String, required: true, unique: true, maxlength: 12 },
 	email: { type: String, required: true, unique: true },
 	userType: { type: String ,default:"user"},
     dateCreated:{type:Date,default:Date.now()}
 });
 
-const User = mongoose.model("User", UserSchema);
-module.exports = User;    
+const User = mongoose.model("User", UserSchema); 
+module.exports = User;     
