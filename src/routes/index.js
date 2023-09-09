@@ -14,6 +14,8 @@ const walletTransactionRoutes = require("../domains/wallet_transaction");
 const transactionRoutes = require("../domains/transaction");
 const ImageRoutes = require("../domains/upload_image");
 const chatRoutes = require("../domains/chat");
+const messageRoutes = require("../domains/message");
+const friendRequestRoutes = require("../domains/friend_request");
 
 
 router.use("/user", userRoutes);
@@ -28,6 +30,8 @@ router.use("/transaction", transactionRoutes);
 router.use("/interest", interestRoutes);
 router.use("/upload", ImageRoutes);
 router.use("/chat", chatRoutes);
+router.use("/message", messageRoutes);
+router.use("/friend-request", friendRequestRoutes);
 
 
 

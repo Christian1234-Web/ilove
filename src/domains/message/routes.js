@@ -1,10 +1,10 @@
 const express = require("express");
-const { createChat, findUserChats, findChat } = require("./controller");
+const { createMessage, getMessages } = require("./controller");
 const router = express.Router();
 
 router.post("/new", async (req,res) => {
     try{
-        const response = await createChat(req.body);
+        const response = await createMessage(req.body);
 
         res.json({
             status:"SUCCESS",
@@ -18,9 +18,9 @@ router.post("/new", async (req,res) => {
     }
 });
 
-router.get("/user/:userId", async (req,res) => {
+router.get("/chat/:chatId", async (req,res) => {
     try{
-        const response = await findUserChats(req.params.userId);
+        const response = await getMessages(req.params.chatId);
 
         res.json({
             status:"SUCCESS",
@@ -29,24 +29,10 @@ router.get("/user/:userId", async (req,res) => {
     }catch(err){
         res.json({
             status:"FAILED",
-            message:err.message
+            messages:err.message
         })
     }
 });
-router.get("/find/:firstId/:secondId", async (req,res) => {
-    try{
-        const response = await findChat(req.params.firstId, req.params.secondId);
 
-        res.json({
-            status:"SUCCESS",
-            message:response
-        })
-    }catch(err){
-        res.json({
-            status:"FAILED",
-            message:err.message
-        })
-    }
-});
 
 module.exports = router;

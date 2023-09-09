@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewUser, getAllUser, deleteUser,loginUser,forgetPassword,updatePassword, updateUser,getSingleUser } = require("./controller");
+const { createNewUser, getAllUser, deleteUser,loginUser,findUser,forgetPassword,updatePassword, updateUser,getSingleUser } = require("./controller");
 const router = express.Router();
 const {sendOTPVerificationEmail} = require("../email_verification_otp/controller");
 const { createWallet } = require("../../domains/wallet/controller");
@@ -91,6 +91,23 @@ router.get("/single/:id", async (req,res)=> {
             status:"SUCCESS",
             data:response
                 })
+
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            error:err.message
+        }) 
+    }
+    
+});
+// find user by username 
+router.get("/find", async (req,res)=> {
+    try{
+        const response = await findUser({username:req.query.username});
+        res.json({
+            status:"SUCCESS",
+            data:response
+            })
 
     }catch(err){
         res.json({

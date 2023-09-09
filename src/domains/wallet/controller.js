@@ -38,7 +38,7 @@ const getAllWallet = async () => {
     try{
             
         // get all wallet
-        const wallet =  await Wallet.find();        
+        const wallet =  await Wallet.find()       
         return {
             wallet
         }

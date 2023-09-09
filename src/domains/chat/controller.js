@@ -2,9 +2,14 @@ const Chat = require("./model")
 
 
 //create chat
-const  createChat = async ({firstId,secondId}) => {
+const  createChat = async (firstId,secondId) => {
     try{
-
+        if(firstId === null || secondId === null) {
+            throw Error("First and second id can not be empty");
+        }
+        if(firstId === "" || secondId === "") {
+            throw Error("First and second id can not be empty");
+        }
         const chat = await Chat.findOne({
             members: {$all: [firstId,secondId]}
         });
@@ -44,6 +49,17 @@ const findChat = async (firstId,secondId) => {
         throw err;
     }
 }
+// delete chat
 
-module.exports = {findChat, findUserChats, createChat};
+const deleteChat = async (id) => {
+    try{
+        const res = await Chat.deleteMany({_id:id});
+        return res;
+    }catch(err){
+        throw err;
+    }
+}
+
+
+module.exports = {findChat, findUserChats, deleteChat,createChat};
 

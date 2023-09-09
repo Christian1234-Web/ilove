@@ -156,6 +156,16 @@ const deleteUser = async (userId) => {
     }catch(err){
         throw err;
     }
+} 
+// find users by username or first name or lastname
+const findUser = async (data) =>{
+    const {username, firstname, lastname} = data;
+    try{
+        const users = await User.find({username}); 
+        return users;
+    }catch(err){
+        throw err;
+    }
 }
 
-module.exports = {createNewUser,updatePassword,getAllUser,loginUser,forgetPassword,logoutUser,updateUser,getSingleUser,deleteUser}
+module.exports = {createNewUser,updatePassword,getAllUser,loginUser,forgetPassword,findUser,logoutUser,updateUser,getSingleUser,deleteUser}
