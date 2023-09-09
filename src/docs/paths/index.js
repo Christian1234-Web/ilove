@@ -47,6 +47,7 @@ const getSentRequest = require('../friend-request/get-sent-request');
 const getReceiveRequest = require('../friend-request/get-receive-request');
 const acceptRequest = require('../friend-request/accept-request');
 const rejectRequest = require('../friend-request/reject-request');
+const deleteUser = require('../user/delete-user');
 
 
 // module
@@ -81,6 +82,9 @@ module.exports = {
         },
         '/user/update/{id}':{
             ...updateUser
+        },
+        '/user/delete/{id}':{
+            ...deleteUser
         },
         '/user/update-password' : {
             ...updatePassword
