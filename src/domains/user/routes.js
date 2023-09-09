@@ -34,7 +34,7 @@ router.post("/signup", async (req, res) => {
 
         res.json({
             status:"PENDING",
-            message:"Verification email sent",
+            message:"Verification code sent to email",
             data:emailData
         })
 
