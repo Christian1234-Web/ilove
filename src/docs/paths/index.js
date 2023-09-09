@@ -40,6 +40,13 @@ const getCover = require('../image/get-cover');
 const createChat = require('../chat/create-chat');
 const getUserChat = require('../chat/get-user-chat');
 const getUserOneTwo = require('../chat/get-user-one-two');
+const createMessage = require('../message/create-message');
+const getUserOneTwoMsg = require('../message/get-user-one-two-msg');
+const sendRequest = require('../friend-request/send-request');
+const getSentRequest = require('../friend-request/get-sent-request');
+const getReceiveRequest = require('../friend-request/get-receive-request');
+const acceptRequest = require('../friend-request/accept-request');
+const rejectRequest = require('../friend-request/reject-request');
 
 
 // module
@@ -159,6 +166,29 @@ module.exports = {
         },
         '/chat/find/{firstId}/{secondId}':{
             ...getUserOneTwo,
+        },
+          //message
+          "/message/new":{
+            ...createMessage
+        },
+        '/message/chat/{chatId}':{
+            ...getUserOneTwoMsg,
+        },
+         //friend request
+         "/friend-request/send":{
+            ...sendRequest,
+        },
+        '/friend-request/sent/{userId}':{
+            ...getSentRequest,
+        },
+        '/friend-request/receive/{userId}':{
+            ...getReceiveRequest,
+        },
+        "/friend-request/accept":{
+            ...acceptRequest,
+        },
+        "/friend-request/reject":{
+            ...rejectRequest,
         },
     }
 }

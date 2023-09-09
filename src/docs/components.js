@@ -323,6 +323,60 @@ module.exports = {
               },
             },
           },
+          //
+          //chat
+          Message:{
+            type: "object", // data type
+            properties: {
+              chatId: {
+                type: "string", // data type
+                description: "chat id", // desc
+                example: "3298392389hexdsg", // example of a id
+              },
+              senderId: {
+                type: "string", // data type
+                description: "sender user id", // desc
+                example: "13434343", // example of a id
+              },
+              receiverId: {
+                type: "string", // data type
+                description: "receiver user id", // desc
+                example: "12345", // example of a example
+              },
+              message: {
+                type: "string", // data type
+                description: "message to be sent", // desc
+                example: "hellp", // example of a id
+              },
+            },
+          },
+          // Friend Request
+          AcceptOrRejectRequest:{
+            type: "object", // data type
+            properties: {
+              requestId: {
+                type: "string", // data type
+                description: "friend request  id", // desc
+                example: "13434343", // example of a id
+              }
+            },
+          },
+          FriendRequest:{
+            type: "object", // data type
+            properties: {
+              senderId: {
+                type: "string", // data type
+                description: "sender id", // desc
+                example: "13434343", // example of a id
+              },
+              receiverId: {
+                type: "string", // data type
+                description: "receiver id", // desc
+                example: "13434343", // example of a id
+              }
+            },
+          },
+          
         // error model
         Error: {
           type: "object", //data type

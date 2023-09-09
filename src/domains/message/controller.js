@@ -15,7 +15,7 @@ const createMessage = async (data) => {
     }catch(err){
         throw err;
     }
-}
+} 
 
 // get messages
 const getMessages = async (chatId) => {

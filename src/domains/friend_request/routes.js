@@ -3,7 +3,7 @@ const {  sendRequest, findUserSendRquest, acceptRequest, rejectRequest, deleteAl
 const router = express.Router();
 
 // send request
-router.post("/new", async (req,res) => {
+router.post("/send", async (req,res) => {
     try{
         const response = await sendRequest(req.body);
 
