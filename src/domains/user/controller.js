@@ -9,10 +9,16 @@ const createNewUser = async (data) => {
     try{
         const { username, email, password, address ,phone} = data;
         // Checking if user already exists
-        const existingUser = await User.findOne({ email })
+        const existingUser = await User.findOne({ email });
+        const existingUserPhone = await User.findOne({ phone })
+
         if (existingUser) {
         // A user already exists
         throw Error("User with the provided email already exists");
+        }
+        if (existingUserPhone) {
+        // A user already exists
+        throw Error("User with the provided phone number already exists");
         }
          else {
             // hash password
