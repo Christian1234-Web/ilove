@@ -38,7 +38,6 @@ const createNewUser = async (data) => {
          }
         
     }catch(err){
-        console.log(err);
         throw err;
     }
 }
@@ -174,5 +173,39 @@ const findUser = async (data) =>{
         throw err;
     }
 }
+// block a user
+const blockUser = async (data) =>{
+    const {userId, blockUserId} = data;
+    try{
+        const user = await User.findOne({_id:userId}); 
+        const blockedUser = await user.blockedUsers.find(e => e === blockUserId);
+        if(!blockedUser){
+             user.blockedUsers.push(blockUserId);
+            await user.save();
+            return user;
+        }else{
+            throw Error("You have already blocked this user");
+        }
+    }catch(err){
+        throw err;
+    }
+}
+// un block a user
+const unBlockUser = async (data) =>{
+    const {userId, unblockUserId} = data;
+    try{
+        const user = await User.findOne({_id:userId}); 
+        const blockedUser =  user.blockedUsers.indexOf(unblockUserId);
+        if(blockedUser !== -1){
+             user.blockedUsers.splice(blockedUser,1);
+            await user.save();
+            return user;
+        }else{
+            throw Error("You have already unblocked this user");
+        }
+    }catch(err){
+        throw err;
+    }
+}
 
-module.exports = {createNewUser,updatePassword,getAllUser,loginUser,forgetPassword,findUser,logoutUser,updateUser,getSingleUser,deleteUser}
+module.exports = {unBlockUser,blockUser,createNewUser,updatePassword,getAllUser,loginUser,forgetPassword,findUser,logoutUser,updateUser,getSingleUser,deleteUser}

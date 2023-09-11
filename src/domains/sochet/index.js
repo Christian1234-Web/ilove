@@ -1,5 +1,5 @@
 const { createMessage } = require("../message/controller");
-
+const User  = require("../user/model");
 // add new user or login user or add user to online array
 let onlineUsers = []
 const addOnlineUser = async (socket,io) => {
@@ -33,10 +33,20 @@ const sendMessage = async (socket,io) => {
         const { chatId, senderId, message, recipientId} = data;
         const room = senderId + ',' + recipientId;
             // const user = onlineUsers.find(user => user.userId === recipientId);
+            const user = await User.findOne({_id:recipientId});
+            const blockedUser = await user.blockedUsers.find(e => e === senderId);
+            if(!blockedUser){
                 io.emit(recipientId, data );
+                // notification
+                io.emit(recipientId, {
+                    senderId,
+                    isRead:false,
+                    date: new Date()
+                });
             // save message to db.
             const response = await createMessage({chatId,senderId,message});
-            // console.log(response);
+            }
+            // frontend will check if i block the recipeint
         })
 }
 // 

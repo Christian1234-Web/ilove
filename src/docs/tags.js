@@ -15,5 +15,8 @@ module.exports = {
       {
         name: "Phone Number Verification", // name of a tag
       },
+      {
+        name: "Block And Unblock", // name of a tag
+      },
     ],
   };

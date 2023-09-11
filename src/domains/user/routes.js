@@ -1,5 +1,5 @@
 const express = require("express");
-const { createNewUser, getAllUser, deleteUser,loginUser,findUser,forgetPassword,updatePassword, updateUser,getSingleUser } = require("./controller");
+const { createNewUser, getAllUser, deleteUser,loginUser,findUser,forgetPassword,updatePassword, updateUser,getSingleUser, blockUser, unBlockUser } = require("./controller");
 const router = express.Router();
 const {sendOTPVerificationEmail} = require("../email_verification_otp/controller");
 const { createWallet } = require("../../domains/wallet/controller");
@@ -146,6 +146,40 @@ router.post("/update-password", async (req,res)=> {
     res.json({
         status:"SUCCESS",
         message:response
+    })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+})
+// block a user
+router.post("/block", async (req,res)=> {
+    try{
+        
+    const response = await blockUser(req.body);
+    res.json({
+        status:"SUCCESS",
+        message: "User blocked successfully, you wont be able send message to this user",
+        data:response
+    })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+})
+// un block a user
+router.post("/unblock", async (req,res)=> {
+    try{
+        
+    const response = await unBlockUser(req.body);
+    res.json({
+        status:"SUCCESS",
+        message: "User unblocked successfully, you can now be able send message to this user",
+        data:response
     })
     }catch(err){
         res.json({
