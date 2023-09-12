@@ -376,7 +376,37 @@ module.exports = {
               }
             },
           },
-          
+          // block and unblock
+          BlockUser:{
+            type: "object", // data type
+            properties: {
+              userId: {
+                type: "string", // data type
+                description: "user id or sender id", // desc
+                example: "sdk2343k4", // example of a id
+              },
+              blockUserId: {
+                type: "string", // data type
+                description: "block user id", // desc
+                example: "32k3k23k232", // example of a id
+              }
+            },
+          },
+          UnBlockUser:{
+            type: "object", // data type
+            properties: {
+              userId: {
+                type: "string", // data type
+                description: "user id or sender id", // desc
+                example: "sdk2343k4", // example of a id
+              },
+              unblockUserId: {
+                type: "string", // data type
+                description: "unblock user id", // desc
+                example: "32k3k23k232", // example of a id
+              }
+            },
+          },
         // error model
         Error: {
           type: "object", //data type

@@ -48,6 +48,14 @@ const getReceiveRequest = require('../friend-request/get-receive-request');
 const acceptRequest = require('../friend-request/accept-request');
 const rejectRequest = require('../friend-request/reject-request');
 const deleteUser = require('../user/delete-user');
+const blockUser = require('../block-unblock-user/block-user');
+const unblockUser = require('../block-unblock-user/unblock-user');
+const sendRuntimeMessage = require('../runtime-message/send-runtime-message');
+const getRuntimeMessage = require('../runtime-message/get-runtime-message');
+const addOnlineUser = require('../runtime-message/add-online-user');
+const disconnectScoket = require('../runtime-message/disconnect-scoket');
+const getOnlineUsers = require('../runtime-message/get-online-users');
+const getRuntimeNotification = require('../runtime-message/get-notification');
 
 
 // module
@@ -178,6 +186,25 @@ module.exports = {
         '/message/chat/{chatId}':{
             ...getUserOneTwoMsg,
         },
+        // runtime messages with socket.io
+        "/send-message-on-runtime":{
+            ...sendRuntimeMessage
+        },
+        "/get-message-on-runtime":{
+            ...getRuntimeMessage
+        },
+        "/add-online-users-on-runtime":{
+            ...addOnlineUser
+        },
+        "/disconnet-from-socket-runtime":{
+            ...disconnectScoket
+        },
+        "/get-online-users-on-runtime":{
+            ...getOnlineUsers
+        },
+        "/get-notification-on-runtime":{
+            ...getRuntimeNotification
+        },
          //friend request
          "/friend-request/send":{
             ...sendRequest,
@@ -193,6 +220,13 @@ module.exports = {
         },
         "/friend-request/reject":{
             ...rejectRequest,
+        },
+        // block and unblock user
+        "/user/block":{
+            ...blockUser,
+        },
+        "/user/unblock":{
+            ...unblockUser,
         },
     }
 }
