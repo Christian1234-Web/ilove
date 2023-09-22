@@ -132,7 +132,7 @@ const forgetPassword = async ({email}) => {
         await sendMail(mailoptions);
         return {
             username: existingUser.username,
-            userId:existingUser_id
+            userId:existingUser._id
         };
     }catch(err){
         throw err;
