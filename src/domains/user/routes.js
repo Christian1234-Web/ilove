@@ -14,9 +14,7 @@ router.post("/signup", async (req, res) => {
 
     if (username == "" || email == "") {
     throw Error("Empty input fields!");
-    } else if (!/^[a-zA-Z ]*$/.test(username)) {
-    throw Error("Invalid username entered");
-    } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+    }else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
     throw Error("Invalid email entered");
     } else if (password.length < 4) {
     throw Error("Password is too short!");
@@ -30,7 +28,7 @@ router.post("/signup", async (req, res) => {
             addresss
         });
         const wallet = await createWallet(newUser._id)
-        const emailData = await sendOTPVerificationEmail(newUser);
+        const emailData = await sendOTPVerificationEmail({userId:newUser._id,email:newUser.email});
 
         res.json({
             status:"PENDING",
