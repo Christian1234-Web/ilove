@@ -47,7 +47,6 @@ const verifyEmailOTP = async ({otp, userId}) =>{
     try{
        // checking if opt exist
      const userOtpRecords = await UserOTPVerification.find({userId});
-     console.log(userOtpRecords)
     if(userOtpRecords.length >= 1) {
         const {expiresAt} = userOtpRecords[0];
         const hashedPass = userOtpRecords[0].otp;
