@@ -50,13 +50,7 @@ router.post("/signup", async (req, res) => {
 // signin
 router.post("/signin", async (req,res) => {
     try{
-       const response = await loginUser(req.body);
-       
-       res.json({
-        status:"SUCCESS",
-        message: "Sigin successful",
-        data:response
-       });
+       const response = await loginUser(req.body,res);
     }
     catch(err){
         res.json({

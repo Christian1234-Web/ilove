@@ -4,6 +4,7 @@ const sendMail = require("../../util/sendMail");
 const hashData = require("../../util/hashData");
 const jwt = require("jsonwebtoken");
 const generateOTP = require("../../util/generateOTP");
+const { sendOTPVerificationEmail } = require("../email_verification_otp/controller");
 // signup // create a new user
 const createNewUser = async (data) => {
     try{
@@ -42,7 +43,7 @@ const createNewUser = async (data) => {
     }
 }
 
-const loginUser = async ({username,password}) =>  {
+const loginUser = async ({username,password},res) =>  {
    
     try{
         if(!username || !password){
@@ -54,15 +55,29 @@ const loginUser = async ({username,password}) =>  {
         }
         const comparedHashedPass = await comparedHashedData(password,user.password);
         if(comparedHashedPass === true){
+            if(user.emailVerification !== true){
+                 await sendOTPVerificationEmail({userId:user._id,email:user.email});
+                  return ( res.json({
+                    status:"PENDING",
+                    message: "Email must be verified, Verification code sent to email address",
+                    userId:user._id
+                   })); 
+            }
             const tokenPayload = {
                 email: user.email,
               };
               const accessToken = jwt.sign(tokenPayload, 'SECRET');
-            user.active = true
-            return {
+                user.active = true
+            
+            const response =  {
                 user,
                 accessToken
             };
+            res.json({
+                status:"SUCCESS",
+                message: "Sigin successful",
+                data:response
+               });
         }else{
             throw Error("Invalid Credentials")
         }

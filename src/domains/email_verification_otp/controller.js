@@ -47,6 +47,7 @@ const verifyEmailOTP = async ({otp, userId}) =>{
     try{
        // checking if opt exist
      const userOtpRecords = await UserOTPVerification.find({userId});
+     console.log(userOtpRecords)
     if(userOtpRecords.length >= 1) {
         const {expiresAt} = userOtpRecords[0];
         const hashedPass = userOtpRecords[0].otp;
@@ -57,7 +58,7 @@ const verifyEmailOTP = async ({otp, userId}) =>{
 
         }else{
             const validOtp = await comparedHashedData(otp,hashedPass);
-            if(!validOtp) {
+            if(validOtp === false) {
                 throw Error("Invalid code passed. Check your inbox")
             }else{
                   // verified success
