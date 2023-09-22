@@ -1,7 +1,6 @@
 const express = require("express");
 const {updateInterest, addInterest, createInterest, getAllInterest, getUserInterest,removeInterest } = require("./controller");
 const router = express.Router();
-// const {sendOTPVerificationEmail} = require ("../email_verification_otp/controller");
 
 //create new interest
 

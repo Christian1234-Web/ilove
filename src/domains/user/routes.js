@@ -61,7 +61,6 @@ router.post("/signin", async (req,res) => {
 router.get("/all", async (req,res)=> {
     try{
         const allusers = await getAllUser();
-        // const emailData = await sendOTPVerificationEmail({_id:'112121',email:"ebukaugwulast@gmail.com"});
         res.json({
             status:"SUCCESS",
             data:allusers

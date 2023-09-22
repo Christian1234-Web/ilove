@@ -1,8 +1,6 @@
 const express = require("express");
 const {  createNewKYCVerification, getAllKycVerification, getSingleKycVerification } = require("./controller");
 const router = express.Router();
-// const {sendOTPVerificationEmail} = require ("../email_verification_otp/controller");
-
 //signup
 
 router.post("/upload", async (req, res) => {

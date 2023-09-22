@@ -1,4 +1,6 @@
 const User = require("./model");
+const UserOTPVerification = require("../email_verification_otp/model");
+
 const comparedHashedData = require("../../util/compareHashedData");
 const sendMail = require("../../util/sendMail");
 const hashData = require("../../util/hashData");
@@ -137,6 +139,7 @@ const forgetPassword = async ({email}) => {
             throw Error("User does not exists")
         }
         const otp = await  generateOTP();
+         const hashedOTP = await hashData(otp);
         const mailoptions = {
             from: process.env.AUTH_EMAIL,
             to: email,
@@ -144,7 +147,16 @@ const forgetPassword = async ({email}) => {
             html:`<p>Enter <b>${otp}</b> in the app to continue with fhe recovery password process
             <p>This code <b>expires in 10 minutes</b>.</p>`
             };
-        await sendMail(mailoptions);
+        const newOTPVerification = await new UserOTPVerification({
+            userId:existingUser._id,
+            otp:hashedOTP,
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 600000,
+            });
+            
+            // save otp record
+            await newOTPVerification.save();
+            await sendMail(mailoptions);
         return {
             username: existingUser.username,
             userId:existingUser._id
