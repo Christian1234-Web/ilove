@@ -62,7 +62,8 @@ const loginUser = async ({username,password},res) =>  {
                   return ( res.json({
                     status:"PENDING",
                     message: "Email must be verified, Verification code sent to email address",
-                    userId:user._id
+                    userId:user._id,
+                    emailVerification:user.emailVerification
                    })); 
             }
             const tokenPayload = {
