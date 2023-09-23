@@ -62,14 +62,13 @@ const loginUser = async ({username,password},res) =>  {
                   return ( res.json({
                     status:"PENDING",
                     message: "Email must be verified, Verification code sent to email address",
-                    userId:user._id,
-                    emailVerification:user.emailVerification
+                    data:user
                    })); 
             }
             const tokenPayload = {
                 email: user.email,
               };
-              const accessToken = jwt.sign(tokenPayload, 'SECRET');
+              const accessToken = jwt.sign(tokenPayload, 'SECRET'); 
                 user.active = true
             
             const response =  {
