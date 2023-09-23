@@ -6,12 +6,12 @@ const uploadImage = require("../../upload/uploadImage");
 const uploadProfileImage = async (userId,image) => {
     try{
         const user = await User.findOne({_id:userId});
-        const imagePath = await uploadImage(image);
+        // const imagePath = await uploadImage(image);
         const profileImage = await new ProfileImage({
             userId,
-            image:imagePath
+            image
         })
-            user.profilePic = imagePath;
+            user.profilePic = image;
             await  user.save();
             await  profileImage.save();
             return{
@@ -26,15 +26,16 @@ const uploadProfileImage = async (userId,image) => {
 const uploadCoverImage = async (userId,image) => {
     try{
         const user = await User.findOne({_id:userId});
-        const imagePath = await uploadImage(image);
+        // const imagePath = await uploadImage(image);
         const coverImage =  new CoverImage({
             userId,
-            image:imagePath
+            image
         })
-            user.coverPic = imagePath;
+            user.coverPic = image;
             await  user.save();
             await  coverImage.save();
             return{
+                userId,
                 coverImage
             }
     }catch(err){

@@ -5,15 +5,15 @@ const { uploadProfileImage, uploadCoverImage, getAllProfilePics, getAllCoverPics
 router.post("/profile/:id", async (req,res)=> {
     try{
         const userId = req.params.id;
-        const file = req.files?.image;
+        const {image} = req.body;
+        // const file = req.files?.image;
         if(!userId){
             throw Error("Empty input not allowed");
         }
-        console.log(req.files);
-        if(!file){
-            throw Error("Kindly upload a image");
+        if(!image){
+            throw Error("Kindly add a image url");
         }
-        const response = await uploadProfileImage(userId,file);
+        const response = await uploadProfileImage(userId,image);
         res.json({
             status:"SUCCESS",
             message:"Profile Image uploaded",
@@ -29,14 +29,16 @@ router.post("/profile/:id", async (req,res)=> {
 router.post("/cover/:id", async (req,res)=> {
     try{
         const userId = req.params.id;
-        const file = req.files?.image;
+        const {image} = req.body;
+
+        // const file = req.files?.image;
         if(!userId){
             throw Error("Empty input not allowed");
         }
-        if(!file){
-            throw Error("Kindly upload a image");
+        if(!image){
+            throw Error("Kindly add a image url");
         }
-        const response = await uploadCoverImage(userId,file);
+        const response = await uploadCoverImage(userId,image);
         res.json({
             status:"SUCCESS",
             message:"Cover Image uploaded",

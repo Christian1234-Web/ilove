@@ -22,10 +22,10 @@ module.exports = {
                         type:'object',
                         properties:{
                             image: {
-                                type: "file"
+                                type: "string"
                               },
                         },
-                        description: "A profile  image", // desc
+                        description: "A profile  image url", // desc
                     }
                 }
             }

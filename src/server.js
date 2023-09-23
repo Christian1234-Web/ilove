@@ -21,8 +21,8 @@ app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
 app.use(routes);
-app.use('/upload/images', express.static('/upload/images'));
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use('/upload/images', express.static('/upload/images'));
+app.use(express.static(path.join(__dirname, '/upload/images')));
   
 app.get("/", async (req,res)=>{
     res.sendFile(path.resolve('./src/index.html'))
@@ -38,7 +38,7 @@ const io = new Server(server, {
 
   io.on('connection', (socket) => {
     console.log(`User connected ${socket.id}`);
-   
+    addOnlineUser(socket,io);
     getOnlineUser(socket,io);
     sendMessage(socket,io);
     getOnlineUser(socket,io);
