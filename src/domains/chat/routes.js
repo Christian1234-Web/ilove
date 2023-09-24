@@ -1,5 +1,5 @@
 const express = require("express");
-const { createChat,deleteChat, findUserChats, findChat } = require("./controller");
+const { createChat,deleteChat, findUserChats, findChat, findRecentChatInteraction } = require("./controller");
 const router = express.Router();
 
 router.post("/new", async (req,res) => {
@@ -34,6 +34,23 @@ router.get("/user/:userId", async (req,res) => {
         })
     }
 });
+router.get("/recent/:userId", async (req,res) => {
+    try{
+        const response = await findRecentChatInteraction(req.params.userId);
+
+        res.json({
+            status:"SUCCESS",
+            recentInteraction:response
+        })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+});
+
+
 router.get("/find/:firstId/:secondId", async (req,res) => {
     try{
         const response = await findChat(req.params.firstId, req.params.secondId);

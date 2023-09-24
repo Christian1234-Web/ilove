@@ -44,7 +44,7 @@ const sendMessage = async (socket,io) => {
                     date: new Date()
                 });
             // save message to db.
-            const response = await createMessage({chatId,senderId,message});
+            const response = await createMessage({chatId,senderId,recipientId:receiverId,message});
             }
             // frontend will check if i block the recipeint
         })

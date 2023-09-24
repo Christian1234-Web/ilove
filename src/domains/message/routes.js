@@ -1,5 +1,5 @@
 const express = require("express");
-const { createMessage, getMessages } = require("./controller");
+const { createMessage, getMessages, deleteMessages } = require("./controller");
 const router = express.Router();
 
 router.post("/new", async (req,res) => {
@@ -33,6 +33,20 @@ router.get("/chat/:chatId", async (req,res) => {
         })
     }
 });
+router.delete("/delete", async (req,res) => {
+    try{
+        const response = await deleteMessages();
 
+        res.json({
+            status:"SUCCESS",
+            message:response
+        })
+    }catch(err){
+        res.json({
+            status:"FAILED",
+            message:err.message
+        })
+    }
+});
 
 module.exports = router;

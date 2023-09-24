@@ -4,10 +4,11 @@ const Message = require("./model");
 
 const createMessage = async (data) => {
     try{
-        const {chatId,senderId, message} = data;
+        const {chatId,senderId,receiverId, message} = data;
         const incomingMessage = new Message({
             chatId,
             senderId,
+            receiverId,
             message
         });
         const response = await incomingMessage.save();
@@ -20,8 +21,17 @@ const createMessage = async (data) => {
 // get messages
 const getMessages = async (chatId) => {
     try{
-        const messages = await Message.find({chatId});
-         
+        const messages = await Message.find({chatId}).populate('senderId').populate('receiverId') 
+        return messages;
+    }catch(err){
+        throw err;
+    }
+
+}
+// get messages
+const deleteMessages = async (chatId) => {
+    try{
+        const messages = await Message.deleteMany() 
         return messages;
     }catch(err){
         throw err;
@@ -29,4 +39,4 @@ const getMessages = async (chatId) => {
 
 }
 
-module.exports = {createMessage, getMessages};
+module.exports = {createMessage, getMessages,deleteMessages};

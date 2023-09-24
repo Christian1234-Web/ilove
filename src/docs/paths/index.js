@@ -39,6 +39,7 @@ const getProfile = require('../image/get-profile');
 const getCover = require('../image/get-cover');
 const createChat = require('../chat/create-chat');
 const getUserChat = require('../chat/get-user-chat');
+const getRecentInteraction  = require('../chat/get-recent-interaction');
 const getUserOneTwo = require('../chat/get-user-one-two');
 const createMessage = require('../message/create-message');
 const getUserOneTwoMsg = require('../message/get-user-one-two-msg');
@@ -176,6 +177,9 @@ module.exports = {
         '/chat/user/{userId}':{
             ...getUserChat,
         },
+        '/chat/recent/{userId}':{
+            ...getRecentInteraction ,
+        },
         '/chat/find/{firstId}/{secondId}':{
             ...getUserOneTwo,
         },
@@ -186,6 +190,7 @@ module.exports = {
         '/message/chat/{chatId}':{
             ...getUserOneTwoMsg,
         },
+        
         // runtime messages with socket.io
         "/send-message-on-runtime":{
             ...sendRuntimeMessage

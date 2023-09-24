@@ -1,5 +1,6 @@
+const { getMessages } = require("../message/controller");
 const Chat = require("./model")
-
+// const {} 
 
 //create chat
 const  createChat = async (firstId,secondId) => {
@@ -38,6 +39,40 @@ const findUserChats = async (userId) => {
         throw err;
     }
 }
+const recentMsg = (e) => {
+    return e
+}
+// recent chat interaction
+const findRecentChatInteraction = async (userId) => {
+    try{
+        const chat = await Chat.find({
+            members:{$in: [userId]}
+        });
+        const recentChat = [];
+
+        const processChat = async (chatId) => {
+            const messages = await getMessages(chatId);
+            const latestMsg = messages[messages.length - 1];
+            return latestMsg;
+          };
+        const processChats = async (chats) => {
+            const processedChats = await Promise.all(chats.map((chat) => processChat(chat._id)));
+            
+            processedChats.forEach((latestMsg) => {
+              const item = recentChat.find((e) => e?.chatId === latestMsg?.chatId);
+              if (!item && latestMsg !== undefined) {
+                recentChat.push(latestMsg);
+              }
+            });
+            
+            return recentChat;
+          };
+          const response =  await processChats(chat);
+          return response 
+    }catch(err){ 
+        throw err;
+    }
+}
 //find chat
 const findChat = async (firstId,secondId) => {
     try{
@@ -61,5 +96,5 @@ const deleteChat = async (id) => {
 }
 
 
-module.exports = {findChat, findUserChats, deleteChat,createChat};
+module.exports = {findChat, findUserChats, deleteChat,createChat,findRecentChatInteraction};
 
