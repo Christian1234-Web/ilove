@@ -61,7 +61,7 @@ const loginUser = async ({username,password},res) =>  {
             if(user.emailVerification !== true){
                  await sendOTPVerificationEmail({userId:user._id,email:user.email});
                 
-                  return ( res.status(400).json({
+                  return (res.json({
                     status:"PENDING",
                     message: "Email must be verified, Verification code sent to email address",
                     data:{user, accessToken:null}
