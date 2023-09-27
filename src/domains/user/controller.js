@@ -60,11 +60,12 @@ const loginUser = async ({username,password},res) =>  {
         if(comparedHashedPass === true){
             if(user.emailVerification !== true){
                  await sendOTPVerificationEmail({userId:user._id,email:user.email});
+                
                   return ( res.status(400).json({
                     status:"PENDING",
                     message: "Email must be verified, Verification code sent to email address",
-                    data:user
-                   })); 
+                    data:{user, accessToken:null}
+                  })); 
             }
             const tokenPayload = {
                 email: user.email,
