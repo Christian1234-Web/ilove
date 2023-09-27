@@ -15,7 +15,7 @@ router.post("/upload", async (req, res) => {
            image
         });
 
-        res.json({
+        res.status(500).json({
             status:"PENDING",
             message:"ID Uploaded",
             data:newUserKYC
@@ -24,7 +24,7 @@ router.post("/upload", async (req, res) => {
     }
 }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         }) 
@@ -40,7 +40,7 @@ router.get("/all", async (req,res)=> {
             })
 
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         }) 
@@ -56,7 +56,7 @@ router.get("/user/:id", async (req,res)=> {
             })
 
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         }) 

@@ -12,7 +12,7 @@ router.post("/new", async (req,res) => {
             message:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -28,7 +28,7 @@ router.get("/user/:userId", async (req,res) => {
             message:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -43,7 +43,7 @@ router.get("/recent/:userId", async (req,res) => {
             recentInteraction:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -60,7 +60,7 @@ router.get("/find/:firstId/:secondId", async (req,res) => {
             message:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -75,7 +75,7 @@ router.delete("/delete/:id", async (req,res) => {
             message:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })

@@ -17,7 +17,7 @@ router.post("/send-otp", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })
@@ -38,7 +38,7 @@ router.post("/resend-otp", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })
@@ -60,7 +60,7 @@ router.post("/verify-otp", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })

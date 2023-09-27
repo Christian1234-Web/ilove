@@ -13,7 +13,7 @@ router.post("/send", async (req,res) => {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -30,7 +30,7 @@ router.get("/sent/:userId", async (req,res) => {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -46,7 +46,7 @@ router.get("/receive/:userId", async (req,res) => {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -63,7 +63,7 @@ router.post("/accept", async (req,res) => {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -80,7 +80,7 @@ router.post("/reject", async (req,res) => {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })

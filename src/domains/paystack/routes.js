@@ -12,7 +12,7 @@ router.post("/fund", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })
@@ -29,7 +29,7 @@ router.get("/verify/:ref", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })
@@ -46,7 +46,7 @@ router.post("/withdraw", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })
@@ -62,7 +62,7 @@ router.get("/banks", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })

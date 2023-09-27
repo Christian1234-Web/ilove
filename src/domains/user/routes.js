@@ -10,6 +10,7 @@ router.post("/signup", async (req, res) => {
     let { username, email, password, phone, addresss } = req.body;
     username = username.trim();
     email = email.trim();
+    email = email.toLowerCase();
     password = password.trim();
 
     if (username == "" || email == "") {
@@ -30,7 +31,7 @@ router.post("/signup", async (req, res) => {
         const wallet = await createWallet(newUser._id)
         const emailData = await sendOTPVerificationEmail({userId:newUser._id,email:newUser.email});
 
-        res.json({
+        res.status(500).json({
             status:"PENDING",
             message:"Verification code sent to email",
             data:emailData
@@ -39,7 +40,7 @@ router.post("/signup", async (req, res) => {
     }
 }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         }) 
@@ -51,7 +52,7 @@ router.post("/signin", async (req,res) => {
        const response = await loginUser(req.body,res);
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -67,7 +68,7 @@ router.get("/all", async (req,res)=> {
                 })
 
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         }) 
@@ -84,7 +85,7 @@ router.get("/single/:id", async (req,res)=> {
                 })
 
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         }) 
@@ -101,7 +102,7 @@ router.get("/find", async (req,res)=> {
             })
 
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         }) 
@@ -118,7 +119,7 @@ router.post("/forget-password", async (req,res) => {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -139,7 +140,7 @@ router.post("/update-password", async (req,res)=> {
         message:response
     })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -156,7 +157,7 @@ router.post("/block", async (req,res)=> {
         data:response
     })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -173,7 +174,7 @@ router.post("/unblock", async (req,res)=> {
         data:response
     })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -190,7 +191,7 @@ router.put("/update/:id", async (req,res)=> {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -207,7 +208,7 @@ router.delete("/delete/:id", async (req,res)=> {
             data:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })

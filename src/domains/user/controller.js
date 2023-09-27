@@ -11,6 +11,7 @@ const { sendOTPVerificationEmail } = require("../email_verification_otp/controll
 const createNewUser = async (data) => {
     try{
         const { username, email, password, address ,phone} = data;
+        
         // Checking if user already exists
         const existingUser = await User.findOne({ email });
         const existingUserPhone = await User.findOne({ phone })
@@ -59,7 +60,7 @@ const loginUser = async ({username,password},res) =>  {
         if(comparedHashedPass === true){
             if(user.emailVerification !== true){
                  await sendOTPVerificationEmail({userId:user._id,email:user.email});
-                  return ( res.json({
+                  return ( res.status(500).json({
                     status:"PENDING",
                     message: "Email must be verified, Verification code sent to email address",
                     data:user

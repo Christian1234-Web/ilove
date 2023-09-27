@@ -13,7 +13,7 @@ router.post("/new", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })
@@ -29,7 +29,7 @@ router.get("/user/:id", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })
@@ -44,7 +44,7 @@ router.get("/all", async (req,res)=> {
         })
     }
     catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             error:err.message
         })

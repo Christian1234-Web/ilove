@@ -10,7 +10,7 @@ const comparedHashedData = require("../../util/compareHashedData");
 
 const sendOTPVerificationEmail = async ({ userId, email }) => {
 try{
-        
+    email = email.toLowerCase();
     const otp = await generateOTP();
     // mail options
     const mailoptions = {

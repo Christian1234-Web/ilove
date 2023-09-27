@@ -89,7 +89,7 @@ router.delete("/profile/delete/all", async (req,res)=>{
             message:"All profile pics deleted"
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })

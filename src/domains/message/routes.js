@@ -11,7 +11,7 @@ router.post("/new", async (req,res) => {
             message:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
@@ -42,7 +42,7 @@ router.delete("/delete", async (req,res) => {
             message:response
         })
     }catch(err){
-        res.json({
+        res.status(500).json({
             status:"FAILED",
             message:err.message
         })
