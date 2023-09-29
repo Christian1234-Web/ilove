@@ -7,16 +7,21 @@ const uploadProfileImage = async (userId,image) => {
     try{
         const user = await User.findOne({_id:userId});
         // const imagePath = await uploadImage(image);
-        const profileImage = await new ProfileImage({
-            userId,
-            image
-        })
-            user.profilePic = image;
-            await  user.save();
-            await  profileImage.save();
-            return{
-                profileImage
-            }
+        if(user.profilePic !== null){
+            const profileImage =  new ProfileImage({
+                userId,
+                image
+            })
+                user.profilePic = image;
+                await  user.save();
+                await  profileImage.save();
+                return{
+                    profileImage
+                }
+        }else{
+            throw Error("User cannot chnage their profile pic")
+        }
+       
     }catch(err){
         throw err;
     }
