@@ -1,6 +1,6 @@
 const {CoverImage,ProfileImage} = require("./model");
 const User = require("../user/model");
-const uploadImage = require("../../upload/uploadImage");
+// const uploadImage = require("../../upload/uploadImage");
 
 // upload profile image
 const uploadProfileImage = async (userId,image) => {
