@@ -17,7 +17,7 @@ module.exports = {
         ],
         requestBody: { 
             content:{
-                'multipart/form-data': {
+                'application/json': {
                     schema:{
                         type:'object',
                         properties:{

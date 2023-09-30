@@ -31,7 +31,7 @@ router.post("/signup", async (req, res) => {
         const wallet = await createWallet(newUser._id)
         const emailData = await sendOTPVerificationEmail({userId:newUser._id,email:newUser.email});
 
-        res.status(500).json({
+        res.json({
             status:"PENDING",
             message:"Verification code sent to email",
             data:emailData
