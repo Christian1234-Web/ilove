@@ -7,7 +7,7 @@ const uploadProfileImage = async (userId,image) => {
     try{
         const user = await User.findOne({_id:userId});
         // const imagePath = await uploadImage(image);
-        if(user.profilePic !== null){
+        if(user.profilePic === null){
             const profileImage =  new ProfileImage({
                 userId,
                 image
@@ -79,7 +79,7 @@ const getUserPost = async (userId) => {
 };
 const getAllProfilePics = async () => {
     try{
-        const profiePics = await ProfileImage.find();
+        const profiePics = await ProfileImage.find(); 
         return {profiePics}
     }catch(err){
         throw err;
