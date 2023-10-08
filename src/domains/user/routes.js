@@ -7,7 +7,7 @@ const { createWallet } = require("../../domains/wallet/controller");
 
 router.post("/signup", async (req, res) => {
     try {
-    let { username, email, password, phone, addresss } = req.body;
+    let { username, email, password, phone, address } = req.body;
     username = username.trim();
     email = email.trim();
     email = email.toLowerCase();
@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
             email,
             password,
             phone,
-            addresss
+            address
         });
         const wallet = await createWallet(newUser._id)
         const emailData = await sendOTPVerificationEmail({userId:newUser._id,email:newUser.email});
@@ -93,9 +93,9 @@ router.get("/single/:id", async (req,res)=> {
     
 });
 // find user by username 
-router.get("/find", async (req,res)=> {
+router.get("/find/:username", async (req,res)=> {
     try{
-        const response = await findUser({username:req.query.username});
+        const response = await findUser({username:req.params.username});
         res.json({
             status:"SUCCESS",
             data:response

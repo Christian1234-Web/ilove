@@ -15,6 +15,7 @@ const updateInterest = require('../interest/update-interest');
 const getUser = require('../user/get-users');
 const createUser = require('../user/create-user');
 const signinUser = require('../user/user-signin');
+const findUserByUsername = require("../user/find-user-by-name");
 // email and phone verification
 const resendMail = require('../email-verification/resend-mail');
 const verifyEmail = require('../email-verification/verify-email');
@@ -78,7 +79,9 @@ module.exports = {
         // user 
         '/user/all':{
             ...getUser,
-            // ...createTodo
+        },
+        '/user/find/{username}': {
+            ...findUserByUsername
         },
         '/user/single/{id}':{
             ...getSingleUser

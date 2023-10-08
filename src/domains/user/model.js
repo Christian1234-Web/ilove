@@ -9,7 +9,7 @@ const UserSchema = new mongoose.Schema({
 	bio: { type: String ,default:null},
 	active:{type:Boolean, default:false},
 	profession: { type: String,default:null },
-	address: { type: String,default:null },
+	address: { type: String, default:null },
 	blockedUsers: { type: Array },
 	interest: { type: Array },
 	phoneVerification: { type: Boolean, default:false },

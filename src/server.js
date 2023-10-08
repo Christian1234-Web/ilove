@@ -25,6 +25,7 @@ app.use(routes);
 app.use(express.static(path.join(__dirname, '/upload/images')));
   
 app.get("/", async (req,res)=>{
+    // res.send()
     res.sendFile(path.resolve('./src/index.html'))
 })
 app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(docs));

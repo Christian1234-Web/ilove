@@ -194,7 +194,7 @@ const deleteUser = async (userId) => {
 } 
 // find users by username or first name or lastname
 const findUser = async (data) =>{
-    const {username, firstname, lastname} = data;
+    const {username} = data;
     try{
         const users = await User.find({username}); 
         return users;
