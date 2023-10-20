@@ -27,30 +27,21 @@ const getOnlineUser = async (socket,io) => {
         io.emit("getOnlineUsers", onlineUsers);
     })
 }
-// send message 
+// send message and // notification
 const sendMessage = async (socket,io) => { 
     socket.on("sendMessage", async (data) => {
         const { chatId, senderId, message, recipientId} = data;
-        const room = senderId + ',' + recipientId;
-            // const user = onlineUsers.find(user => user.userId === recipientId);
+             // const user = onlineUsers.find(user => user.userId === recipientId);
             const user = await User.findOne({_id:recipientId});
             const blockedUser = await user.blockedUsers.find(e => e === senderId);
             if(!blockedUser){
-                io.emit(recipientId, data );
-                // notification
-                io.emit(recipientId, {
-                    senderId,
-                    isRead:false,
-                    date: new Date()
-                });
+                io.emit(recipientId, {...data,isRead:false,date: new Date() } );
             // save message to db.
             const response = await createMessage({chatId,senderId,recipientId:receiverId,message});
             }
             // frontend will check if i block the recipeint
         })
 }
-// 
-
 
 
 module.exports = {addOnlineUser,getOnlineUser,disConnectUser,sendMessage};

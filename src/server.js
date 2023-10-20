@@ -1,5 +1,4 @@
 require("./config/db");
-// const httpServer = require("http").createServer();
 const express = require("express");
 const cors = require("cors");
 const fileUpload = require('express-fileupload');
@@ -12,20 +11,16 @@ const app = express();
 const { Server } = require('socket.io'); // Add this
 const server = http.createServer(app); // Add this
 const port = process.env.PORT || 8080;
-const {addOnlineUser,disConnectUser,getOnlineUser,
-    
-    sendMessage} = require("./domains/sochet");
+const {addOnlineUser,disConnectUser,getOnlineUser, sendMessage} = require("./domains/sochet");
 
 
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
 app.use(routes);
-// app.use('/upload/images', express.static('/upload/images'));
 app.use(express.static(path.join(__dirname, '/upload/images')));
   
 app.get("/", async (req,res)=>{
-    // res.send()
     res.sendFile(path.resolve('./src/index.html'))
 })
 app.use('/api-docs',swaggerUI.serve,swaggerUI.setup(docs));
