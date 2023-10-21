@@ -30,7 +30,6 @@ const createTransaction = async (
            console.log(res);
             return res;
         }catch(err){
-            console.log('transaction')
             throw err;
         }
      

@@ -57,7 +57,7 @@ const verifyPayment = async (reference,userId) => {
        throw  Error("Transaction Already Exist");
     }
     // create wallet transaction
-     await createWalletTransaction(user._id, res.data.status === true ? 'successful':"failed", res.data.data.currency, res.data.data.amount);
+     await createWalletTransaction(user._id, res.data.status === true ? 'successful':"failed", res.data.data.currency, res.data.data.amount,'paystack');
     // create transaction
      await createTransaction(user._id, res.data.data.id, res.data.status === true ? 'successful':"failed", res.data.data.currency, res.data.data.amount, user.username,user.email,user.phone,'paystack');
 

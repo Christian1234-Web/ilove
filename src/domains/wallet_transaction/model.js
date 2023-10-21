@@ -16,7 +16,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     paymentMethod: {
        type: String,
-       required: [true, "payment status is required"],
+       required: [true, "payment method is required"],
        enum: ["flutterwave","paystack"], // Payment gateway might differs as the application grows
        },
 
@@ -28,7 +28,7 @@ const walletTransactionSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      required: [true, "payment status is required"],
+      required: [true, "payment status is required"], 
       enum: ["successful", "pending", "failed"],
     },
   },

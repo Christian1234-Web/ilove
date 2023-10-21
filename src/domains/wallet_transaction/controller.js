@@ -1,7 +1,7 @@
 const WalletTransaction = require("./model");
 
 
-const createWalletTransaction = async (userId,status,currency,amount) =>{
+const createWalletTransaction = async (userId,status,currency,amount,paymentMethod) =>{
     try{
          // create wallet transaction
     const walletTransaction =  new WalletTransaction({
@@ -9,12 +9,12 @@ const createWalletTransaction = async (userId,status,currency,amount) =>{
         userId,
         isInflow: true,
         currency,
-        status
+        status,
+        paymentMethod
       });
       await walletTransaction.save();
       return walletTransaction;
     }catch(err){
-        console.log(err);
          throw err;
     }
    
