@@ -5,6 +5,9 @@ const Message = require("./model");
 const createMessage = async (data) => {
     try{
         const {chatId,senderId,receiverId, message} = data;
+        if(!chatId || !senderId || !receiverId || message){
+           return  
+        }
         const incomingMessage = new Message({
             chatId,
             senderId,
