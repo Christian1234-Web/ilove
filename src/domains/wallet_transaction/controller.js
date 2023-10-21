@@ -4,7 +4,7 @@ const WalletTransaction = require("./model");
 const createWalletTransaction = async (userId,status,currency,amount) =>{
     try{
          // create wallet transaction
-    const walletTransaction = await new WalletTransaction({
+    const walletTransaction =  new WalletTransaction({
         amount,
         userId,
         isInflow: true,
@@ -12,7 +12,6 @@ const createWalletTransaction = async (userId,status,currency,amount) =>{
         status
       });
       await walletTransaction.save();
-      console.log(walletTransaction, 'create walet trasnsaction');
       return walletTransaction;
     }catch(err){
         console.log(err);
@@ -22,11 +21,10 @@ const createWalletTransaction = async (userId,status,currency,amount) =>{
 }
 const getUserWalletTransaction = async ( userId ) => {
     try{
-         console.log(userId)   
         // get user wallet transaction
-        const transaction = await  WalletTransaction.findOne({userId})        
+        const transactions = await  WalletTransaction.find({userId})        
         return {
-            transaction
+            transactions
         }
     }
     catch(err){
@@ -38,9 +36,9 @@ const getAllWalletTransaction = async () => {
     try{
             
         // get all wallet transaction
-        const transaction = await  WalletTransaction.find();        
+        const transactions = await  WalletTransaction.find();        
         return {
-            transaction
+            transactions
         }
     }
     catch(err){

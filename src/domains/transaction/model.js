@@ -24,7 +24,7 @@ const transactionSchema = new mongoose.Schema(
       type: String,
     },
     amount: {
-      type: Number,
+      type: String,
       required: [true, "amount is required"],
     },
     currency: {
@@ -40,7 +40,7 @@ const transactionSchema = new mongoose.Schema(
     paymentGateway: {
       type: String,
       required: [true, "payment gateway is required"],
-      enum: ["flutterwave"], // Payment gateway might differs as the application grows
+      enum: ["flutterwave","paystack"], // Payment gateway might differs as the application grows
     },
   },
   {

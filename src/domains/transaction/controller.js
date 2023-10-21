@@ -10,11 +10,12 @@ const createTransaction = async (
     amount,
     name,
     email,
-    phone
+    phone,
+    paymentGateway
     ) => {
         try{
             // create transaction
-            const transaction = await new Transaction({
+            const transaction =  new Transaction({
                 userId,
                 transactionId: id,
                 name,
@@ -23,10 +24,11 @@ const createTransaction = async (
                 amount,
                 currency,
                 paymentStatus: status,
-                paymentGateway: "flutterwave",
+                paymentGateway
             });
-            transaction.save();
-            return transaction;
+           const res =  await transaction.save();
+           console.log(res);
+            return res;
         }catch(err){
             console.log('transaction')
             throw err;

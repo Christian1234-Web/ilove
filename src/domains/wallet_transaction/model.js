@@ -14,7 +14,11 @@ const walletTransactionSchema = new mongoose.Schema(
 
     isInflow: { type: Boolean },
 
-    paymentMethod: { type: String, default: "flutterwave" },
+    paymentMethod: {
+       type: String,
+       required: [true, "payment status is required"],
+       enum: ["flutterwave","paystack"], // Payment gateway might differs as the application grows
+       },
 
     currency: {
       type: String,

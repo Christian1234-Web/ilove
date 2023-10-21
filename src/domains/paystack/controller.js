@@ -38,39 +38,36 @@ const fundWallet = async ({userId,amount,currency,card_number,cvv,expiry_month,e
 }
 // verify payment
 
-const verifyPayment = async (reference) => {
-  reference = 'rd0bz6z2wu'
+const verifyPayment = async (reference,userId) => {
     try{
       const user = await User.findOne({_id:userId});
       if(!user) {
           throw Error("User not found");
       }
       const url = `https://api.paystack.co/transaction/verify/${reference}`
-      const response = await axios.get(url, {
+      const res = await axios.get(url, {
         headers:{
           Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`
         }
-      }).data;
-      console.log(response)
-      if(response.success === true){
-
+      });
+      if(res.data.status === true){
         // check if transaction id already exist
-        const transactionExist = await getSingleTransaction(response.data.id);
+        const transactionExist = await getSingleTransaction(res.data.data.id);
     if (transactionExist) {
        throw  Error("Transaction Already Exist");
     }
     // create wallet transaction
-     await createWalletTransaction(user._id, res.data.status, res.data.currency, res.data.amount);
+     await createWalletTransaction(user._id, res.data.status === true ? 'successful':"failed", res.data.data.currency, res.data.data.amount);
     // create transaction
-     await createTransaction(user._id, res.data.id, res.data.status, res.data.currency, res.data.amount, user.username,user.email,user.phone);
+     await createTransaction(user._id, res.data.data.id, res.data.status === true ? 'successful':"failed", res.data.data.currency, res.data.data.amount, user.username,user.email,user.phone,'paystack');
 
      // update user wallet 
-    await updateWallet(user._id, amount);
+    await updateWallet(user._id, res.data.data.amount);
         return {
-          reference: response.data.reference
+          reference: res.data.data.reference
         }
       }else{
-        throw Error(response.data.message)
+        throw Error(res.data.data.message)
       }
     }catch(err){
       throw err;

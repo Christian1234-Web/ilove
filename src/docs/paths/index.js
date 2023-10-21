@@ -160,7 +160,7 @@ module.exports = {
             ...getAllBanks,
         },
         // paystack
-        '/paystack/verify/{ref}':{
+        '/paystack/verify/{ref}/{userId}':{
             ...paystackVerifyPayment,
         },
         // cover and profile pics

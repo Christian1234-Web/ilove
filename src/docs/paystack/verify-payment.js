@@ -13,7 +13,17 @@ module.exports = {
        },
        required: true, // Mandatory param
        description: "Transaction reference", // param desc.
-     }], // expected params.
+     },
+     {
+      name: "userId", // name of the param
+      in: "path", // location of the param
+      schema: {
+        $ref: "#/components/schemas/id", // data model of the param
+      },
+      required: true, // Mandatory param
+      description: "User Id", // param desc.
+    }
+    ], // expected params.
       // expected responses
       responses: {
         // response code

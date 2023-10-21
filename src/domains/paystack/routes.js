@@ -19,9 +19,9 @@ router.post("/fund", async (req,res)=> {
     }
 });
 // verify payment
-router.get("/verify/:ref", async (req,res)=> {
+router.get("/verify/:ref/:userId", async (req,res)=> {
     try{
-        const response = await verifyPayment(req.params.ref);
+        const response = await verifyPayment(req.params.ref,req.params.userId);
         res.json({
             status:"SUCCESS",
             message: "Wallet funded" ,
