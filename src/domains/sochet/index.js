@@ -37,7 +37,7 @@ const sendMessage = async (socket,io) => {
             if(!blockedUser){
                 io.emit(recipientId, {...data,isRead:false,date: new Date() } );
             // save message to db.
-            const response = await createMessage({chatId,senderId,recipientId:receiverId,message});
+            await createMessage({chatId,senderId,receiverId:recipientId,message});
             }
             // frontend will check if i block the recipeint
         })
