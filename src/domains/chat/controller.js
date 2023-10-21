@@ -15,7 +15,7 @@ const  createChat = async (firstId,secondId) => {
             members: {$all: [firstId,secondId]}
         });
 
-        if(chat) return {chat};
+        if(chat) return chat;
 
         const newChat  = new Chat({
             members: [firstId,secondId]
@@ -23,7 +23,7 @@ const  createChat = async (firstId,secondId) => {
         
         const response = await newChat.save();
 
-        return {response}
+        return response
     }catch(err){
         throw err
     }
@@ -34,7 +34,7 @@ const findUserChats = async (userId) => {
         const chat = await Chat.find({
             members:{$in: [userId]}
         });
-        return {chat}
+        return chat
     }catch(err){
         throw err;
     }
@@ -79,7 +79,7 @@ const findChat = async (firstId,secondId) => {
         const chat = await Chat.findOne({
             members: {$all: [firstId,secondId]}
         });
-        return {chat}
+        return chat
     }catch(err){
         throw err;
     }

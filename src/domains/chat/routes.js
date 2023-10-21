@@ -9,7 +9,7 @@ router.post("/new", async (req,res) => {
 
         res.json({
             status:"SUCCESS",
-            message:response
+            chat:response
         })
     }catch(err){
         res.status(500).json({
@@ -25,7 +25,7 @@ router.get("/user/:userId", async (req,res) => {
 
         res.json({
             status:"SUCCESS",
-            message:response
+            chat:response
         })
     }catch(err){
         res.status(500).json({
@@ -57,7 +57,7 @@ router.get("/find/:firstId/:secondId", async (req,res) => {
 
         res.json({
             status:"SUCCESS",
-            message:response
+            chat:response
         })
     }catch(err){
         res.status(500).json({
