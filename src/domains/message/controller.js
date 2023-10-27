@@ -6,7 +6,7 @@ const createMessage = async (data) => {
     try{
         console.log(data);
         const {chatId,senderId,recipientId, message} = data;
-        if(!chatId || !senderId || !recipientId || message){
+        if(!chatId || !senderId || !recipientId || !message){
            return  
         }
         const incomingMessage = new Message({
@@ -15,6 +15,8 @@ const createMessage = async (data) => {
             recipientId,
             message
         });
+        console.log(incomingMessage)
+
         const response = await incomingMessage.save();
         console.log(response)
         return response;
