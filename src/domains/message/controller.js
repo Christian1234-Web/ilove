@@ -24,8 +24,7 @@ const createMessage = async (data) => {
 // get messages
 const getMessages = async (chatId) => {
     try{
-        const messages = await Message.find({chatId})
-        // const res = 
+        const messages = await Message.find({chatId}).populate('senderId').populate('recipientId') 
         return messages;
     }catch(err){
         throw err;
