@@ -4,7 +4,6 @@ const Message = require("./model");
 
 const createMessage = async (data) => {
     try{
-        console.log(data);
         const {chatId,senderId,recipientId, message} = data;
         if(!chatId || !senderId || !recipientId || !message){
            return  
@@ -15,10 +14,7 @@ const createMessage = async (data) => {
             recipientId,
             message
         });
-        console.log(incomingMessage)
-
         const response = await incomingMessage.save();
-        console.log(response)
         return response;
     }catch(err){
         throw err;
