@@ -76,7 +76,7 @@ const findRecentChatInteraction = async (userId) => {
             processedChats.forEach((newLatestMsg) => {
               const item = recentChat.find((e) => e?.chatId === newLatestMsg?.chatId);
             //   console.log(latestMsg)
-              if (!item && newLatestMsg !== undefined) {
+              if (!item && newLatestMsg?.recentChatUser !== null) {
                 recentChat.push(newLatestMsg);
               }
             });
