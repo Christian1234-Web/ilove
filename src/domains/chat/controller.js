@@ -1,4 +1,5 @@
 const { getMessages } = require("../message/controller");
+const { getSingleUser } = require("../user/controller");
 const Chat = require("./model")
 // const {} 
 
@@ -48,27 +49,43 @@ const findRecentChatInteraction = async (userId) => {
         const chat = await Chat.find({
             members:{$in: [userId]}
         });
+        // console.log(chat)
         const recentChat = [];
 
         const processChat = async (chatId) => {
             const messages = await getMessages(chatId);
+            // chatId user,message,isRead,date
             const latestMsg = messages[messages.length - 1];
-            return latestMsg;
+            const recentChatUser = await getSingleUser(latestMsg?.senderId === userId? latestMsg?.recipientId : latestMsg?.senderId);
+            const newLatestMsg = {
+                _id:latestMsg?._id,
+                chatId:latestMsg?.chatId,
+                message:latestMsg?.message,
+                createdAt:latestMsg?.createdAt,
+                updatedAt:latestMsg?.updatedAt,
+                __v:"0",
+                date:latestMsg?.date,
+                isRead:latestMsg?.isRead,
+                recentChatUser
+            }
+            return newLatestMsg;
           };
         const processChats = async (chats) => {
             const processedChats = await Promise.all(chats.map((chat) => processChat(chat._id)));
             
-            processedChats.forEach((latestMsg) => {
-              const item = recentChat.find((e) => e?.chatId === latestMsg?.chatId);
-              if (!item && latestMsg !== undefined) {
-                recentChat.push(latestMsg);
+            processedChats.forEach((newLatestMsg) => {
+              const item = recentChat.find((e) => e?.chatId === newLatestMsg?.chatId);
+            //   console.log(latestMsg)
+              if (!item && newLatestMsg !== undefined) {
+                recentChat.push(newLatestMsg);
               }
             });
             
             return recentChat;
           };
           const response =  await processChats(chat);
-          return response 
+        //   console.log(response) 
+        return response;
     }catch(err){ 
         throw err;
     }

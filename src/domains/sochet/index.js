@@ -35,8 +35,8 @@ const sendMessage = async (socket,io) => {
             const user = await User.findOne({_id:recipientId});
             const blockedUser = await user.blockedUsers.find(e => e === senderId);
             if(!blockedUser){
-                // console.log(data);
-                io.emit(recipientId, {...data,isRead:false,date: new Date(), createdAt: new Date(),updatedAt:new Date(),__v:'0',_id:'0' } );
+                console.log(data);
+                io.emit(recipientId, {...data,isRead:false,date: new Date(), createdAt: new Date(),updatedAt:new Date(),__v:0,_id:0} );
             // save message to db.
             await createMessage({chatId,senderId,recipientId,message,isRead:true,date:new Date()});
             }
