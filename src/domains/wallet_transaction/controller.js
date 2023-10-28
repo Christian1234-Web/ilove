@@ -22,10 +22,20 @@ const createWalletTransaction = async (userId,status,currency,amount,paymentMeth
 const getUserWalletTransaction = async ( userId ) => {
     try{
         // get user wallet transaction
-        const transactions = await  WalletTransaction.find({userId})        
-        return {
-            transactions
-        }
+        const transactions = await  WalletTransaction.find({userId})    
+        const walletTransactions = transactions.map(e => {
+            return{
+                    _id:e._id,
+                    amount:new Intl.NumberFormat('en-US').format(e.amount),
+                    userId:e.userId,
+                    isInflow:e.isInflow,
+                    paymentMethod:e.paymentMethod,
+                    currency:e.currency,
+                    status:e.status,
+                    __v:0
+            }
+        })  
+        return {walletTransactions}
     }
     catch(err){
         throw err;
