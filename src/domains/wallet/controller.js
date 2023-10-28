@@ -22,11 +22,17 @@ catch(err){
 
 const getUserWallet = async ( userId ) => {
     try{
-            
         // get user wallet
         const wallet = await  Wallet.findOne({userId})        
         return {
-            wallet
+            wallet:{
+                _id:wallet._id,
+                balance:new Intl.NumberFormat('en-US').format(wallet.balance / 100),
+                userId:wallet.userId,
+                createdAt:wallet.createdAt,
+                updatedAt:wallet.updatedAt,
+                __v:0
+            }
         }
     }
     catch(err){

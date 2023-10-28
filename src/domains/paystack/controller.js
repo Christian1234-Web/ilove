@@ -51,18 +51,20 @@ const verifyPayment = async (reference,userId) => {
         }
       });
       if(res.data.status === true){
+        const amount = res.data.data.amount / 100;
+
         // check if transaction id already exist
         const transactionExist = await getSingleTransaction(res.data.data.id);
     if (transactionExist) {
        throw  Error("Transaction Already Exist");
     }
     // create wallet transaction
-     await createWalletTransaction(user._id, res.data.status === true ? 'successful':"failed", res.data.data.currency, res.data.data.amount,'paystack');
+     await createWalletTransaction(user._id, res.data.status === true ? 'successful':"failed", res.data.data.currency, amount,'paystack');
     // create transaction
-     await createTransaction(user._id, res.data.data.id, res.data.status === true ? 'successful':"failed", res.data.data.currency, res.data.data.amount, user.username,user.email,user.phone,'paystack');
+     await createTransaction(user._id, res.data.data.id, res.data.status === true ? 'successful':"failed", res.data.data.currency, amount, user.username,user.email,user.phone,'paystack');
 
      // update user wallet 
-    await updateWallet(user._id, res.data.data.amount);
+    await updateWallet(user._id, amount);
         return {
           reference: res.data.data.reference
         }
