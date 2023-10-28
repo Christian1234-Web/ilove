@@ -40,23 +40,18 @@ const findUserChats = async (userId) => {
         throw err;
     }
 }
-const recentMsg = (e) => {
-    return e
-}
 // recent chat interaction
 const findRecentChatInteraction = async (userId) => {
     try{
         const chat = await Chat.find({
             members:{$in: [userId]}
         });
-        // console.log(chat)
         const recentChat = [];
 
         const processChat = async (chatId) => {
             const messages = await getMessages(chatId);
-            // chatId user,message,isRead,date
             const latestMsg = messages[messages.length - 1];
-            const recentChatUser = await getSingleUser(latestMsg?.senderId === userId? latestMsg?.recipientId : latestMsg?.senderId);
+            const recentChatUser = await getSingleUser(latestMsg?.senderId.toString() === userId? latestMsg?.recipientId : latestMsg?.senderId);
             const newLatestMsg = {
                 _id:latestMsg?._id,
                 chatId:latestMsg?.chatId,
@@ -75,7 +70,6 @@ const findRecentChatInteraction = async (userId) => {
             
             processedChats.forEach((newLatestMsg) => {
               const item = recentChat.find((e) => e?.chatId === newLatestMsg?.chatId);
-            //   console.log(latestMsg)
               if (!item && newLatestMsg?.recentChatUser !== null) {
                 recentChat.push(newLatestMsg);
               }
@@ -84,7 +78,6 @@ const findRecentChatInteraction = async (userId) => {
             return recentChat;
           };
           const response =  await processChats(chat);
-        //   console.log(response) 
         return response;
     }catch(err){ 
         throw err;
