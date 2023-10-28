@@ -194,11 +194,17 @@ const deleteUser = async (userId) => {
 } 
 // find users by username or first name or lastname
 const findUser = async (data) =>{
-    const {username} = data;
-    try{
-        const users = await User.find({username}); 
-        return users;
-    }catch(err){
+    try {
+        const { username } = data;
+        const normalizedUsername = username.toLowerCase();
+
+        const users = await User.find();
+        
+        // Filter users based on the lowercase username
+        const sortedUsers = users.filter(user => user.username.toLowerCase().includes(normalizedUsername));
+
+        return sortedUsers;
+    } catch (err) {
         throw err;
     }
 }
