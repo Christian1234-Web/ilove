@@ -3,7 +3,7 @@ module.exports = {
     post:{
         tags:['Wallet'],
         description: "Fund another user wallet with wallet balance",
-        operationId: "createWallet",
+        operationId: "creditAnotherWalletFromWalletBalance",
         parameters:[],
         requestBody: {
             content:{
