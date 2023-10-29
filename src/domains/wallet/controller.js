@@ -27,7 +27,7 @@ const getUserWallet = async ( userId ) => {
         return {
             wallet:{
                 _id:wallet._id,
-                balance:new Intl.NumberFormat('en-US').format(wallet.balance / 100),
+                balance:new Intl.NumberFormat('en-US').format(wallet.balance), 
                 userId:wallet.userId,
                 createdAt:wallet.createdAt,
                 updatedAt:wallet.updatedAt,
@@ -67,6 +67,10 @@ const updateWallet = async (userId, amount) => {
         throw error;
     }
   };
+
+const fundWalletByWallet = async () => {
+
+} 
 
 
 module.exports = {getAllWallet,getUserWallet,createWallet,updateWallet}
