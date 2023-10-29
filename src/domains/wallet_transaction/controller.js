@@ -55,6 +55,21 @@ const getAllWalletTransaction = async () => {
         throw err;
     }
 }
+const updateWalletTransaction = async (walletTransactionId,status) => {
+    try{
+            
+        // get all wallet transaction
+        const transactions = await  WalletTransaction.findOne({_id:walletTransactionId});   
+             transactions.status = status;
+             await transactions.save();
+        return {
+            transactions
+        }
+    }
+    catch(err){
+        throw err;
+    }
+}
 
 
-module.exports = {getAllWalletTransaction,getUserWalletTransaction,createWalletTransaction}
+module.exports = {getAllWalletTransaction,getUserWalletTransaction,createWalletTransaction,updateWalletTransaction}

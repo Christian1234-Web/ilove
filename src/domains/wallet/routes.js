@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {createWallet, getAllWallet,getUserWallet} = require("./controller");
+const {createWallet, getAllWallet,getUserWallet, fundWalletByWallet} = require("./controller");
 
 router.post("/new", async (req,res)=> {
     try{
@@ -19,7 +19,23 @@ router.post("/new", async (req,res)=> {
         })
     }
 });
-
+// fund wallet by wallet balance
+router.post("/credit-another-user-wallet", async (req,res)=> {
+    try{
+        const response = await fundWalletByWallet(req.body);
+        res.json({
+            status:"SUCCESS",
+            message: "Transaction successful and awaiting approval from both users",
+            data:response
+        })
+    }
+    catch(err){
+        res.status(500).json({
+            status:"FAILED",
+            error:err.message
+        })
+    }
+});
 router.get("/user/:id", async (req,res)=> {
     try{
         const response = await getUserWallet(req.params.id);

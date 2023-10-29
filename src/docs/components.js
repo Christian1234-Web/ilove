@@ -153,6 +153,41 @@ module.exports = {
             }
           },
         },
+        ApproveOrDisapproveTransaction:{
+          type: "object", // data type
+          properties: {
+            userId: {
+              type: "string", // data-type
+              description: "user identification number", // desc
+              example: "77676544334", // example of an id
+            },
+            transactionId: {
+                type: "string", // data-type
+                description: "transaction identification number", // desc
+                example: "12121", // example of an id
+              }
+          },
+        },
+        FundAnotherWalletByWallet: {
+          type: "object", // data type
+          properties: {
+            senderId: {
+              type: "string", // data-type
+              description: "sender identification number", // desc
+              example: "77676544334", // example of an id
+            },
+            receiverId: {
+                type: "string", // data-type
+                description: "user identification number", // desc
+                example: "12121", // example of an id
+              },
+            amount: {
+              type: "number", // data-type
+              description: "amount to be sent", // desc
+              example: "2000", // example of a title
+            }
+          },
+        },
         // interest  model
         Interest: {
           type: "object", // data type

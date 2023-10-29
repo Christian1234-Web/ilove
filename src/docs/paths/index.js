@@ -1,6 +1,7 @@
 // wallet
 const getWallet = require('../wallet/get-wallet');
 const createWallet = require('../wallet/create-wallet');
+fundWalletByWallet = require('../wallet/fund-wallet-by-wallet');
 // interest
 const createInterest = require('../interest/create-interest');
 const getInterest = require('../interest/get-interest');
@@ -27,6 +28,9 @@ const getUserWalletTransaction = require('../wallet-transaction/get-user-wallet-
 // transaction
 const getSingleTransaction = require('../transaction/get-single-transaction');
 const getAllTransaction = require('../transaction/get-all-transaction');
+const disapprovePendingTransaction = require('../transaction/approve-or-disapprove-transaction');
+const approvePendingTransaction = require('../transaction/approve-or-disapprove-transaction');
+
 // flutterwave
 const verifyPayment = require('../flutterwave/verify-payment');
 const withdraw = require('../flutterwave/withdraw');
@@ -75,6 +79,9 @@ module.exports = {
         },
         '/wallet/user/{id}':{
             ...getUserWaller
+        },
+        '/wallet/credit-another-user-wallet':{
+            ...fundWalletByWallet
         },
         // user 
         '/user/all':{
@@ -148,6 +155,12 @@ module.exports = {
         },
         '/transaction/single/{transactionId}':{
             ...getSingleTransaction,
+        },
+        '/transaction/pending/approve':{
+            ...approvePendingTransaction,
+        },
+        '/transaction/pending/disapprove':{
+            ...disapprovePendingTransaction,
         },
         //flutterwave
         '/flutterwave/verify':{

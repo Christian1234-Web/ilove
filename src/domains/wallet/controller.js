@@ -1,15 +1,17 @@
+const { createWalletTransaction } = require("../wallet_transaction/controller");
 const Wallet = require("./model");
+const { createPendingTransaction } = require("../transaction/controller");
 
 
 
 const createWallet = async (userId ) => {
 try{   
     // create wallet
-    const wallet = await new Wallet({
+    const wallet =  new Wallet({
     userId
     });
     
-    // save otp record
+    // save  wallet
     await wallet.save();
     return {
         wallet
@@ -68,9 +70,20 @@ const updateWallet = async (userId, amount) => {
     }
   };
 
-const fundWalletByWallet = async () => {
+const fundWalletByWallet = async (data) => {
+   try{
+    const {senderId,receiverId,amount}= data; 
+    const intAmount = parseInt(amount);
+    await updateWallet(senderId, -intAmount);
+    const senderWalletTransaction = await createWalletTransaction(senderId,'pending','NGN',-intAmount,'paystack');
+    const receiverWalletTransaction = await createWalletTransaction(receiverId,'pending','NGN',intAmount,'paystack');
+    const pendingWalletTransaction = await createPendingTransaction(senderId,receiverId,amount,senderWalletTransaction._id,receiverWalletTransaction._id);
+    return {pendingWalletTransaction}
 
+   }catch(err){
+    throw err;
+   }
 } 
 
 
-module.exports = {getAllWallet,getUserWallet,createWallet,updateWallet}
+module.exports = {getAllWallet,getUserWallet,createWallet,updateWallet,fundWalletByWallet}
