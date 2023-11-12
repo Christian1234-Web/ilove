@@ -1,7 +1,8 @@
-const { updateWallet } = require("../wallet/controller");
 const { updateWalletTransaction } = require("../wallet_transaction/controller");
 const Transaction = require("./model");
 const PendingTransaction = require("./pendingModel");
+const { updateWallet } = require("../wallet/controller");
+
 
 
 
@@ -43,14 +44,12 @@ const createPendingTransaction = async (senderId,receiverId,amount,senderWalletT
             senderId,
             receiverId,
             amount,
-            senderWalletTransactionId:senderWalletTransaction._id,
-            receiverWalletTransactionId:receiverWalletTransaction._id
+            senderWalletTransactionId,
+            receiverWalletTransactionId
         });
         await createPendingTransaction.save();
     
-        return {
-            createPendingTransaction
-        }
+        return createPendingTransaction
     }catch(err){
         throw err;
     }
@@ -68,7 +67,7 @@ const getSingleTransaction = async ( transactionId ) => {
 const getSinglePendingTransaction = async ( transactionId ) => {
     try{
         // get single transaction 
-        const transaction = await  PendingTransaction.findOne({transactionId}); 
+        const transaction = await  PendingTransaction.findOne({_id:transactionId}); 
         return transaction;
     }
     catch(err){
@@ -152,7 +151,7 @@ const approvePendingTransaction = async (data) => {
         throw err;
     }
 }
-const disApprovePendingTransaction = async () => {
+const disApprovePendingTransaction = async (data) => {
     const {userId,transactionId} = data;
     try{
         // get all transaction
@@ -165,7 +164,6 @@ const disApprovePendingTransaction = async () => {
             transaction.isApproveByReceiver = false;
             await transaction.save();
         } 
-        checkTransactionStatus(transaction);
         const response = checkTransactionStatus(transaction);
         return response;
     }
@@ -175,7 +173,6 @@ const disApprovePendingTransaction = async () => {
 }
 const deleteUserPendingTransaction = async (transactionId) => {
     try{
-        // get all transaction
         const transaction = await PendingTransaction.findOneAndDelete({_id:transactionId});        
         return {
             transaction
@@ -186,4 +183,4 @@ const deleteUserPendingTransaction = async (transactionId) => {
     }
 }
 
-module.exports = {getAllTransaction,getSingleTransaction,createTransaction,createPendingTransaction,approvePendingTransaction,disApprovePendingTransaction}
+module.exports = {getAllTransaction,getSinglePendingTransaction,deleteUserPendingTransaction,checkTransactionStatus,getSingleTransaction,createTransaction,createPendingTransaction,approvePendingTransaction,disApprovePendingTransaction}

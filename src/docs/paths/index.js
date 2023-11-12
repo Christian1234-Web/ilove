@@ -28,8 +28,8 @@ const getUserWalletTransaction = require('../wallet-transaction/get-user-wallet-
 // transaction
 const getSingleTransaction = require('../transaction/get-single-transaction');
 const getAllTransaction = require('../transaction/get-all-transaction');
-const disapprovePendingTransaction = require('../transaction/approve-or-disapprove-transaction');
-const approvePendingTransaction = require('../transaction/approve-or-disapprove-transaction');
+const disapprovePendingTransaction = require('../transaction/disapprove-transaction');
+const approvePendingTransaction = require('../transaction/approve-transaction');
 
 // flutterwave
 const verifyPayment = require('../flutterwave/verify-payment');

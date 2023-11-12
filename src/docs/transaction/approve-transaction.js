@@ -2,8 +2,8 @@
 module.exports = {
     post:{
         tags:['Transaction'],
-        description: "Approve or Disapprove Pending Transaction",
-        operationId: "adpt",
+        description: "Approve Pending Transaction",
+        operationId: "approvePendingTransaction",
         parameters:[],
         requestBody: {
             content:{
@@ -16,7 +16,7 @@ module.exports = {
         },
         responses:{
             '201':{
-                description: "Pending Transaction approve or disapprove successfully"
+                description: "Pending Transaction approve successfully"
             },
             '500':{
                 description: 'Server error'

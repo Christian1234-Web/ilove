@@ -1,6 +1,6 @@
 const { createWalletTransaction } = require("../wallet_transaction/controller");
-const Wallet = require("./model");
 const { createPendingTransaction } = require("../transaction/controller");
+const Wallet = require("./model");
 
 
 
@@ -65,7 +65,6 @@ const updateWallet = async (userId, amount) => {
       );
       return wallet;
     } catch (error) {
-      console.log('wallet udpate');
         throw error;
     }
   };
@@ -83,7 +82,7 @@ const fundWalletByWallet = async (data) => {
    }catch(err){
     throw err;
    }
-} 
+}  
 
 
-module.exports = {getAllWallet,getUserWallet,createWallet,updateWallet,fundWalletByWallet}
+module.exports = {updateWallet,getAllWallet,getUserWallet,createWallet,fundWalletByWallet}
