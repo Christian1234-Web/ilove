@@ -3,7 +3,7 @@ module.exports = {
   get: {
     tags: ["Transaction"], // operation's tag.
     description: "Get all transaction", // operation's desc.
-    operationId: "getAllTransaction", // unique operation id.
+    operationId: "getAllPendingTransaction", // unique operation id.
     parameters: [], // expected params.
     // expected responses
     responses: {
