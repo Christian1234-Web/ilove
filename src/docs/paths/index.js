@@ -162,7 +162,7 @@ module.exports = {
     "/transaction/single/{transactionId}": {
       ...getSingleTransaction,
     },
-    "/transaction/pending/{userId}": {
+    "/transaction/pending/{userOne}/{userTwo}": {
       ...getPendingTransaction,
     },
     "/transaction/pending/approve": {

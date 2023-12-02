@@ -76,11 +76,14 @@ const getSinglePendingTransaction = async (transactionId) => {
     throw err;
   }
 };
-const getPendingTransactionByUserId = async (userId) => {
+const getPendingTransactionByUserId = async (userIdOne, userIdTwo) => {
   try {
-    // get single transaction
+    // Get single transaction
     const transaction = await PendingTransaction.findOne({
-      $or: [{ senderId: userId }, { receiverId: userId }],
+      $or: [
+        { senderId: userIdOne, receiverId: userIdTwo },
+        { senderId: userIdTwo, receiverId: userIdOne },
+      ],
     });
     return transaction;
   } catch (err) {

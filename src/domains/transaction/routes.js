@@ -24,9 +24,12 @@ router.get("/single/:transactionId", async (req, res) => {
   }
 });
 
-router.get("/pending/:userId", async (req, res) => {
+router.get("/pending/:userOne/:userTwo", async (req, res) => {
   try {
-    const response = await getPendingTransactionByUserId(req.params.userId);
+    const response = await getPendingTransactionByUserId(
+      req.params.userOne,
+      req.params.userTwo
+    );
     res.json({
       status: "SUCCESS",
       data: response,
