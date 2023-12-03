@@ -28,7 +28,6 @@ const createTransaction = async (
       paymentGateway,
     });
     const res = await transaction.save();
-    console.log(res);
     return res;
   } catch (err) {
     throw err;

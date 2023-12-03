@@ -56,7 +56,6 @@ const fundWallet = async ({
       if (res.success === true) {
         // check if transaction id already exist
         const transactionExist = await getSingleTransaction(res.data.id);
-        console.log(transactionExist, "transactionExist");
 
         if (transactionExist) {
           throw Error("Transaction Already Exist");
@@ -89,7 +88,6 @@ const fundWallet = async ({
       throw Error(response.message);
     }
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
@@ -105,7 +103,6 @@ const verifyPayment = async ({ otp = 12345, flw_ref, userId }) => {
     if (res.success === true) {
       // check if transaction id already exist
       const transactionExist = await getSingleTransaction(res.data.id);
-      console.log(transactionExist, "transactionExist");
 
       if (transactionExist) {
         throw Error("Transaction Already Exist");
@@ -165,7 +162,6 @@ const withdrawFromWallet = async ({
         },
       }
     );
-    console.log(response);
   } catch (err) {
     throw err;
   }
@@ -182,7 +178,6 @@ const getAllBank = async () => {
       }
     );
     return response.data.data;
-    console.log(response);
   } catch (err) {
     throw err;
   }

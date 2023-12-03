@@ -41,7 +41,6 @@ const fundWallet = async ({
     });
     handler.openIframe();
   } catch (err) {
-    console.log(err);
     throw err;
   }
 };
@@ -128,7 +127,6 @@ const withdrawFromWallet = async ({
         },
       }
     );
-    console.log(response);
   } catch (err) {
     throw err;
   }
@@ -145,7 +143,6 @@ const getAllBank = async () => {
       }
     );
     return response.data.data;
-    console.log(response);
   } catch (err) {
     throw err;
   }
