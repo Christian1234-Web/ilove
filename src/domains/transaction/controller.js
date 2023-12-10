@@ -84,7 +84,43 @@ const getPendingTransactionByUserId = async (userIdOne, userIdTwo) => {
         { senderId: userIdTwo, receiverId: userIdOne },
       ],
     });
-    return transaction;
+    if (transaction) {
+      return {
+        isPending: true,
+        _id: transaction?._id,
+        senderId: transaction?.senderId,
+        receiverId: transaction?.receiverId,
+        senderWalletTransactionId: transaction?.senderWalletTransactionId,
+        receiverWalletTransactionId: transaction?.receiverWalletTransactionId,
+        amount: transaction?.amount,
+        isApproveBySender: transaction?.isApproveBySender,
+        isApproveByReceiver: transaction?.isApproveByReceiver,
+        currency: transaction?.currency,
+        paymentStatus: transaction?.paymentStatus,
+        paymentGateway: transaction?.paymentGateway,
+        createdAt: transaction?.createdAt,
+        updatedAt: transaction?.updatedAt,
+        __v: transaction?.__v,
+      };
+    } else {
+      return {
+        isPending: false,
+        _id: "",
+        senderId: "",
+        receiverId: "",
+        senderWalletTransactionId: "",
+        receiverWalletTransactionId: "",
+        amount: "",
+        isApproveBySender: "",
+        isApproveByReceiver: "",
+        currency: "",
+        paymentStatus: "",
+        paymentGateway: "",
+        createdAt: "",
+        updatedAt: "",
+        __v: "",
+      };
+    }
   } catch (err) {
     // Error will be propagated up the call stack
     throw err;
