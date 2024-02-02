@@ -1,21 +1,21 @@
 module.exports = {
   post: {
     tags: ["Paystack"],
-    description: "Withdraw from paystack",
-    operationId: "paystackWithdraw",
+    description: "Initiate Withdrawal from paystack",
+    operationId: "paysackInitiateWithdraw",
     parameters: [],
     requestBody: {
       content: {
         "application/json": {
           schema: {
-            $ref: "#/components/schemas/WithdrawFromPaystack",
+            $ref: "#/components/schemas/InitiateWithdrawal",
           },
         },
       },
     },
     responses: {
       201: {
-        description: "Withdraw successfully",
+        description: "Withdrawal  successfully initiated",
       },
       500: {
         description: "Server error",

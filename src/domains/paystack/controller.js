@@ -6,6 +6,11 @@ const {
   createTransaction,
 } = require("../transaction/controller");
 const { updateWallet } = require("../wallet/updateWallet");
+const {
+  sendOTPVerificationEmail,
+  verifyTransactionOTP,
+} = require("../email_verification_otp/controller");
+const generateOTP = require("../../util/generateOTP");
 
 // Initialize the paystack class
 
@@ -52,7 +57,7 @@ const verifyPayment = async (reference, userId) => {
     if (!user) {
       throw Error("User not found");
     }
-    const url = `https://api.paystack.co/transaction/verify/${reference}`;
+    const url = `${process.env.PAYSTACK_API_BASE_URL}/transaction/verify/${reference}`;
     const res = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
@@ -100,33 +105,74 @@ const verifyPayment = async (reference, userId) => {
   }
 };
 
-const withdrawFromWallet = async ({
-  userId,
-  account_bank,
-  account_number,
-  amount,
-  currency = "NGN",
-}) => {
+const initiateWithrawal = async (userId) => {
   try {
     const user = await User.findOne({ _id: userId });
+    if (user) {
+      const otp = await generateOTP();
+      const subject = "Verify Your Transaction";
+      const text = `<p>
+                     Enter <b>${otp}</b> in the app to verify your transaction
+                     <p>This code <b>expires in 10 minutes</b>.
+                  </p>`;
+      const msg = await sendOTPVerificationEmail({
+        userId,
+        email: user.email,
+        subject,
+        text,
+      });
+    }
+  } catch (err) {}
+};
 
-    // For making Transfers to bank
-    const data = {
-      account_bank,
-      account_number,
-      amount,
-      currency,
-      beneficiary_name: user.username,
-    };
-    const response = await axios.post(
-      "https://api.flutterwave.com/v3/transfers",
-      data,
-      {
-        headers: {
-          Authorization: `Bearer FLWSECK_TEST-SANDBOXDEMOKEY-X`,
-        },
+const withdrawFromWallet = async (data) => {
+  const {
+    userId,
+    account_bank,
+    account_number,
+    amount,
+    bank_code,
+    otp,
+    currency = "NGN",
+  } = data;
+  const recipientData = { account_bank, bank_code, account_number, currency };
+  try {
+    const verifyTransaction = await verifyTransactionOTP({ otp, userId });
+    if (verifyTransaction.status === "SUCCESS") {
+      const response = await axios.post(
+        `${process.env.PAYSTACK_API_BASE_URL}/transferrecipient`,
+        recipientData,
+        {
+          headers: {
+            Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+          },
+        }
+      );
+      if (response.data) {
+        const transferData = {
+          source: "balance", // You can change this based on your requirements
+          reason: "Withdrawal reason",
+          amount: amount * 100, // Specify the withdrawal amount in kobo (e.g., 5000 for 50.00 NGN)
+          recipient: recipient.data.recipient_code,
+        };
+        // For making Transfers to bank
+        const res = await axios.post(
+          `${process.env.PAYSTACK_API_BASE_URL}/transfer`,
+          transferData,
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.PAYSTACK_SECRET_KEY}`,
+            },
+          }
+        );
+        if (res.data.status === true) {
+          return {
+            status: "SUCCESS",
+            data: res.data.data,
+          };
+        }
       }
-    );
+    }
   } catch (err) {
     throw err;
   }
@@ -135,10 +181,25 @@ const withdrawFromWallet = async ({
 const getAllBank = async () => {
   try {
     const response = await axios.get(
-      "https://api.flutterwave.com/v3/banks/NG",
+      `${process.env.PAYSTACK_API_BASE_URL}/bank`,
       {
         headers: {
-          Authorization: "Bearer " + process.env.FLUTTERWAVE_V3_SECRET_KEY,
+          Authorization: "Bearer " + process.env.PAYSTACK_SECRET_KEY,
+        },
+      }
+    );
+    return response.data.data;
+  } catch (err) {
+    throw err;
+  }
+};
+const getUserBankDetails = async (account_number, bank_code) => {
+  try {
+    const response = await axios.get(
+      `${process.env.PAYSTACK_API_BASE_URL}/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`,
+      {
+        headers: {
+          Authorization: "Bearer " + process.env.PAYSTACK_SECRET_KEY,
         },
       }
     );
@@ -148,4 +209,11 @@ const getAllBank = async () => {
   }
 };
 
-module.exports = { fundWallet, verifyPayment, withdrawFromWallet, getAllBank };
+module.exports = {
+  fundWallet,
+  verifyPayment,
+  withdrawFromWallet,
+  getAllBank,
+  getUserBankDetails,
+  initiateWithrawal,
+};

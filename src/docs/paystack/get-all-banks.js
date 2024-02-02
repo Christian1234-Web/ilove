@@ -1,16 +1,16 @@
 module.exports = {
-    // method of operation
-    get: {
-      tags: ["Flutterwave"], // operation's tag.
-      description: "Get flutterwave  banks", // operation's desc.
-      operationId: "getFlutterwaveBanks", // unique operation id.
-      parameters: [], // expected params.
-      // expected responses
-      responses: {
-        // response code
-        200: {
-          description: "Flutterwave banks  obtained", // response desc.
-        },
+  // method of operation
+  get: {
+    tags: ["Paystack"], // operation's tag.
+    description: "Get all paystack  banks", // operation's desc.
+    operationId: "getAllPaystackBank", // unique operation id.
+    parameters: [], // expected params.
+    // expected responses
+    responses: {
+      // response code
+      200: {
+        description: "Paysctack banks  obtained", // response desc.
       },
     },
-  };
+  },
+};

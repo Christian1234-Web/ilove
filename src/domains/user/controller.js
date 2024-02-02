@@ -60,7 +60,18 @@ const loginUser = async ({ username, password }, res) => {
     );
     if (comparedHashedPass === true) {
       if (user.emailVerification !== true) {
-        await sendOTPVerificationEmail({ userId: user._id, email: user.email });
+        const otp = await generateOTP();
+        const subject = "Verify Your Email";
+        const text = `<p>
+        Enter <b>${otp}</b> in the app to verify your email address
+          <p>This code <b>expires in 10 minutes</b>.</p>`;
+
+        await sendOTPVerificationEmail({
+          userId: user._id,
+          email: user.email,
+          subject,
+          text,
+        });
 
         return res.json({
           status: "PENDING",
@@ -149,7 +160,7 @@ const forgetPassword = async ({ email }) => {
       html: `<p>Enter <b>${otp}</b> in the app to continue with fhe recovery password process
             <p>This code <b>expires in 10 minutes</b>.</p>`,
     };
-    const newOTPVerification = await new UserOTPVerification({
+    const newOTPVerification = new UserOTPVerification({
       userId: existingUser._id,
       otp: hashedOTP,
       createdAt: Date.now(),
