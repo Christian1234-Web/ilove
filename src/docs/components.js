@@ -342,7 +342,22 @@ module.exports = {
           },
         },
       },
-
+      // get paystack user bank details
+      GetUserBankDetails: {
+        type: "object", // data type
+        properties: {
+          bank_code: {
+            type: "string", // data type
+            description: "user bank code", // desc
+            example: "4343", // example of a id
+          },
+          account_number: {
+            type: "string", // data type
+            description: "user account number", // desc
+            example: "12345", // example of a example
+          },
+        },
+      },
       FinalizeWithdrawal: {
         type: "object", // data type
         properties: {

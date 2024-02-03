@@ -42,6 +42,8 @@ const getAllBanks = require("../flutterwave/get-all-banks");
 // paystack
 const paystackVerifyPayment = require("../paystack/verify-payment");
 const paystackGetAllBanks = require("../paystack/get-all-banks");
+const paystackGetAllBankDetials = require("../paystack/get-user-bank");
+
 const paystackInitiateWithdrawal = require("../paystack/initiatewithdrawal");
 const paystackFinalizeWithdrawal = require("../paystack/finalize-withdrawal");
 const updatePassword = require("../user/update-password");
@@ -191,6 +193,10 @@ module.exports = {
     "/paystack/banks": {
       ...paystackGetAllBanks,
     },
+    "/paystack/user-bank-details": {
+      ...paystackGetAllBankDetials,
+    },
+
     "/paystack/initiate/withdrawal": {
       ...paystackInitiateWithdrawal,
     },

@@ -71,6 +71,22 @@ router.post("/finalize/withdrawal", async (req, res) => {
     });
   }
 });
+router.post("/user-bank-details", async (req, res) => {
+  const { account_number, bank_code } = req.body;
+  try {
+    const response = await getUserBankDetails(account_number, bank_code);
+    res.json({
+      status: "SUCCESS",
+      message: "Withdraw successful",
+      data: response,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "FAILED",
+      error: err.message,
+    });
+  }
+});
 
 router.post("/withdraw", async (req, res) => {
   try {
