@@ -147,7 +147,8 @@ const withdrawFromWallet = async (data) => {
           },
         }
       );
-      if (response.data) {
+      // console.log(response.data);
+      if (response.status === true) {
         const transferData = {
           source: "balance", // You can change this based on your requirements
           reason: "Withdrawal reason",
