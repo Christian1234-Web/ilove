@@ -366,11 +366,6 @@ module.exports = {
             description: "user id", // desc
             example: "13434343dsds33", // example of a id
           },
-          account_bank: {
-            type: "string", // data type
-            description: "user account number", // desc
-            example: "145", // example of a example
-          },
           account_number: {
             type: "string",
             description: "amount to withdraw",

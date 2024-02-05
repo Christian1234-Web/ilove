@@ -128,14 +128,13 @@ const initiateWithrawal = async (userId) => {
 const withdrawFromWallet = async (data) => {
   const {
     userId,
-    account_bank,
     account_number,
     amount,
     bank_code,
     otp,
     currency = "NGN",
   } = data;
-  const recipientData = { account_bank, bank_code, account_number, currency };
+  const recipientData = { type: "nuban", bank_code, account_number, currency };
   try {
     const verifyTransaction = await verifyTransactionOTP({ otp, userId });
     if (verifyTransaction.status === "SUCCESS") {
