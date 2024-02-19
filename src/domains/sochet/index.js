@@ -59,4 +59,27 @@ const sendMessage = async (socket, io) => {
   });
 };
 
-module.exports = { addOnlineUser, getOnlineUser, disConnectUser, sendMessage };
+// notifications
+
+const sendNotifications = async (message) => {
+  socket.on("notifications", async (userId) => {
+    // const user = onlineUsers.find(user => user.userId === recipientId);
+    io.emit(userId, {
+      message,
+      isRead: false,
+      date: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      __v: 0,
+      _id: 0,
+    });
+  });
+};
+
+module.exports = {
+  addOnlineUser,
+  getOnlineUser,
+  disConnectUser,
+  sendMessage,
+  sendNotifications,
+};
