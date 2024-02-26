@@ -1,42 +1,41 @@
-
 module.exports = {
-    post:{
-        tags:['Upload Profile and Cover Image'],
-        description: "Upload  profile pic",
-        operationId: "uploadProfile",
-        parameters:[
-            { 
-                name: "id", // name of the param
-                in: "path", // location of the param
-                schema: {
-                  $ref: "#/components/schemas/id", // data model of the param
-                },
-                required: true, // Mandatory param
-                description: "A  user id", // param desc.
-              },      
-        ],
-        requestBody: { 
-            content:{
-                'application/json': {
-                    schema:{
-                        type:'object',
-                        properties:{
-                            image: {
-                                type: "string"
-                              },
-                        },
-                        description: "A profile  image url", // desc
-                    }
-                }
-            }
+  post: {
+    tags: ["Upload Profile and Cover Image"],
+    description: "Upload  profile pic",
+    operationId: "uploadProfile",
+    parameters: [
+      {
+        name: "id", // name of the param
+        in: "path", // location of the param
+        schema: {
+          $ref: "#/components/schemas/id", // data model of the param
         },
-        responses:{
-            '201':{
-                description: "Profile pics uploaded successfully"
+        required: true, // Mandatory param
+        description: "A  user id", // param desc.
+      },
+    ],
+    requestBody: {
+      content: {
+        "application/json": {
+          schema: {
+            type: "object",
+            properties: {
+              image: {
+                type: "string",
+              },
             },
-            '500':{
-                description: 'Server error'
-            }
-        }
-    }
-}
+            description: "A profile  image url", // desc
+          },
+        },
+      },
+    },
+    responses: {
+      201: {
+        description: "Profile pics uploaded successfully",
+      },
+      400: {
+        description: "Server error",
+      },
+    },
+  },
+};

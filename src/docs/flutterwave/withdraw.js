@@ -1,26 +1,25 @@
-
 module.exports = {
-    post:{
-        tags:['Flutterwave'],
-        description: "Withdraw from flutterwave",
-        operationId: "flutterwaveWithdraw",
-        parameters:[],
-        requestBody: {
-            content:{
-                'application/json': {
-                    schema:{
-                        $ref:'#/components/schemas/WithdrawFromFlutterwave'
-                    }
-                }
-            }
+  post: {
+    tags: ["Flutterwave"],
+    description: "Withdraw from flutterwave",
+    operationId: "flutterwaveWithdraw",
+    parameters: [],
+    requestBody: {
+      content: {
+        "application/json": {
+          schema: {
+            $ref: "#/components/schemas/WithdrawFromFlutterwave",
+          },
         },
-        responses:{
-            '201':{
-                description: "Withdraw  successfully"
-            },
-            '500':{
-                description: 'Server error'
-            }
-        }
-    }
-}
+      },
+    },
+    responses: {
+      201: {
+        description: "Withdraw  successfully",
+      },
+      400: {
+        description: "Server error",
+      },
+    },
+  },
+};

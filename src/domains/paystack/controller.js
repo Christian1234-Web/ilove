@@ -152,7 +152,7 @@ const withdrawFromWallet = async (data) => {
         const transferData = {
           source: "balance", // You can change this based on your requirements
           reason: "Withdrawal reason",
-          amount: amount * 100, // Specify the withdrawal amount in kobo (e.g., 5000 for 50.00 NGN)
+          amount: amount * 100, // Specify the withdrawal amount in kobo (e.g., 4000 for 50.00 NGN)
           recipient: recipient.data.recipient_code,
         };
         // For making Transfers to bank

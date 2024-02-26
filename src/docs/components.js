@@ -379,7 +379,7 @@ module.exports = {
           amount: {
             type: "string",
             description: "amount to withdraw",
-            example: "50000",
+            example: "40000",
           },
           otp: {
             type: "string",

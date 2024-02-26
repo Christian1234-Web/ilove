@@ -17,7 +17,7 @@ module.exports = {
       201: {
         description: "Wallet Withdrawal is successfull",
       },
-      500: {
+      400: {
         description: "Server error",
       },
     },

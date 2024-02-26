@@ -17,7 +17,7 @@ module.exports = {
       201: {
         description: "Withdrawal  successfully initiated",
       },
-      500: {
+      400: {
         description: "Server error",
       },
     },

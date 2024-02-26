@@ -29,7 +29,7 @@ router.post("/new", async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -52,7 +52,7 @@ router.post("/add", async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -75,7 +75,7 @@ router.post("/remove", async (req, res) => {
       });
     }
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -90,7 +90,7 @@ router.get("/all", async (req, res) => {
       data: allInterest,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -105,7 +105,7 @@ router.get("/user/:id", async (req, res) => {
       data: userInterest,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -123,7 +123,7 @@ router.put("/update/:id", async (req, res) => {
       data: updatedInterest,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       message: err.message,
     });

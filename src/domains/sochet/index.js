@@ -61,19 +61,20 @@ const sendMessage = async (socket, io) => {
 
 // notifications
 
-const sendNotifications = async (message) => {
-  socket.on("notifications", async (userId) => {
-    // const user = onlineUsers.find(user => user.userId === recipientId);
-    io.emit(userId, {
-      message,
-      isRead: false,
-      date: new Date(),
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      __v: 0,
-      _id: 0,
-    });
+const sendNotifications = async (io, data) => {
+  // socket.on("notifications", async (userId) => {
+  // const user = onlineUsers.find(user => user.userId === recipientId);
+  console.log(io, data, "test");
+  io.emit(data.userId, {
+    message: data.message,
+    isRead: false,
+    date: new Date(),
+    createdAt: new Date(),
+    updatedAt: new Date(),
+    __v: 0,
+    _id: 0,
   });
+  // });
 };
 
 module.exports = {

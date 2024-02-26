@@ -17,7 +17,7 @@ router.get("/single/:transactionId", async (req, res) => {
       data: response,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -35,7 +35,7 @@ router.get("/pending/:userOne/:userTwo", async (req, res) => {
       data: response,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -50,7 +50,7 @@ router.get("/all", async (req, res) => {
       data: response,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -64,7 +64,7 @@ router.get("/pending/all", async (req, res) => {
       data: response,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -78,7 +78,7 @@ router.post("/pending/approve", async (req, res) => {
       message: response,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });
@@ -92,7 +92,7 @@ router.post("/pending/disapprove", async (req, res) => {
       message: response,
     });
   } catch (err) {
-    res.status(500).json({
+    res.status(400).json({
       status: "FAILED",
       error: err.message,
     });

@@ -17,7 +17,7 @@ module.exports = {
       201: {
         description: "User bank  successfully obtained",
       },
-      500: {
+      400: {
         description: "Server error",
       },
     },
