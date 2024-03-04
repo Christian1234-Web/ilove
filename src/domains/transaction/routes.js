@@ -19,7 +19,7 @@ router.get("/single/:transactionId", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -37,7 +37,7 @@ router.get("/pending/:userOne/:userTwo", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -52,7 +52,7 @@ router.get("/all", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -66,7 +66,7 @@ router.get("/pending/all", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -80,7 +80,7 @@ router.post("/pending/approve", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -94,7 +94,7 @@ router.post("/pending/disapprove", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });

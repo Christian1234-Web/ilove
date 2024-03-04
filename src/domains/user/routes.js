@@ -66,7 +66,7 @@ router.post("/signup", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -92,7 +92,7 @@ router.get("/all", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -107,7 +107,7 @@ router.get("/single/:id", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -122,7 +122,7 @@ router.get("/find/:username", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });

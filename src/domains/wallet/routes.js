@@ -19,7 +19,7 @@ router.post("/new", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -35,7 +35,7 @@ router.post("/credit-another-user-wallet", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -49,7 +49,7 @@ router.get("/user/:id", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -63,7 +63,7 @@ router.get("/all", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });

@@ -20,7 +20,7 @@ router.post("/fund", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -36,7 +36,7 @@ router.get("/verify/:ref/:userId", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -52,7 +52,7 @@ router.post("/initiate/withdrawal", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -67,7 +67,7 @@ router.post("/finalize/withdrawal", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -83,7 +83,7 @@ router.post("/user-bank-details", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -99,7 +99,7 @@ router.post("/withdraw", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -114,7 +114,7 @@ router.get("/banks", async (req, res) => {
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
-      error: err.message,
+      message: err.message,
     });
   }
 });
@@ -134,7 +134,7 @@ router.get(
     } catch (err) {
       res.status(400).json({
         status: "FAILED",
-        error: err.message,
+        message: err.message,
       });
     }
   }
