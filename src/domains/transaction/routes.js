@@ -73,10 +73,7 @@ router.get("/pending/all", async (req, res) => {
 router.post("/pending/approve", async (req, res) => {
   try {
     const response = await approvePendingTransaction(req.body);
-    res.json({
-      status: "SUCCESS",
-      message: response,
-    });
+    res.json( response);
   } catch (err) {
     res.status(400).json({
       status: "FAILED",
@@ -87,10 +84,7 @@ router.post("/pending/approve", async (req, res) => {
 router.post("/pending/disapprove", async (req, res) => {
   try {
     const response = await disApprovePendingTransaction(req.body);
-    res.json({
-      status: "SUCCESS",
-      message: response,
-    });
+    res.json( response);
   } catch (err) {
     res.status(400).json({
       status: "FAILED",

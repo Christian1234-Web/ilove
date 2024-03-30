@@ -268,8 +268,13 @@ const approvePendingTransaction = async (data) => {
       transaction.isApproveByReceiver = true;
       await transaction.save();
     }
-    const response = checkTransactionStatus(transaction);
-    return response;
+    const response = await checkTransactionStatus(transaction);
+    return {
+      status: "SUCCESS",
+      isApproveBySender:transaction.isApproveBySender,
+      isApproveByReceiver:transaction.isApproveByReceiver,
+      message:response,
+    };
   } catch (err) {
     throw err;
   }
@@ -287,8 +292,13 @@ const disApprovePendingTransaction = async (data) => {
       transaction.isApproveByReceiver = false;
       await transaction.save();
     }
-    const response = checkTransactionStatus(transaction);
-    return response;
+    const response = await checkTransactionStatus(transaction);
+      return {
+      status: "SUCCESS",
+      isApproveBySender:transaction.isApproveBySender,
+      isApproveByReceiver:transaction.isApproveByReceiver,
+      message:response,
+    };;
   } catch (err) {
     throw err;
   }
