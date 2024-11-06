@@ -36,8 +36,4 @@ router.use("/friend-request", friendRequestRoutes);
 
 
 
-
-
-
-module.exports = router;
- 
+module.exports = router; 
