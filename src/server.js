@@ -4,7 +4,7 @@ const cors = require("cors");
 const fileUpload = require("express-fileupload");
 const path = require("path");
 const swaggerUI = require("swagger-ui-express");
-const routes = require("./routes");
+// const routes = require("./routes");
 const docs = require("./docs");
 const http = require("http");
 const app = express();
@@ -21,7 +21,7 @@ const {
 app.use(cors());
 app.use(express.json());
 app.use(fileUpload());
-app.use(routes);
+// app.use(routes);
 app.use(express.static(path.join(__dirname, "/upload/images")));
 
 app.get("/", async (req, res) => {
