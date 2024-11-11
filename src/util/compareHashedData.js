@@ -1,4 +1,4 @@
-const bcrypt = require("bcrypt")
+const bcrypt = require("bcryptjs")
 
 const comparedHashedData = async (data, hashedData) =>{  
     try{
