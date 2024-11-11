@@ -5,7 +5,7 @@ module.exports = {
       description: "Local server", // name
     },
     {
-      url: "http://66.29.133.183:8080/", // url
+      url: "http://203.161.52.145", // url
       description: "Live server", // name
     },
   ],
