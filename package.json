@@ -7,6 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "nodemon  -r dotenv/config src/server.js dotenv_config_path=env/local.env",
+    "start:prod": "node  -r dotenv/config src/server.js dotenv_config_path=env/local.env",
     "dev": "nodemon run dev"
   },
   "dependencies": {
