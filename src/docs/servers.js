@@ -5,7 +5,7 @@ module.exports = {
       description: "Local server", // name
     },
     {
-      url: "http://203.161.52.145", // url
+      url: "http://capatuno.com", // url
       description: "Live server", // name
     },
   ],
