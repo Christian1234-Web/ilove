@@ -6,7 +6,7 @@ module.exports = {
     },
     {
       url: "https://capatuno.com", // url
-      description: "Live server", // name
+      description: "Live server", // name 
     },
   ],
 };
