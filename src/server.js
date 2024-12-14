@@ -31,7 +31,7 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 const io = new Server(server, {
   cors: {
-    origin: "*", // Allow all origins (update as needed for production security)
+    origin: "https://capatuno.com", // Allow all origins (update as needed for production security)
     methods: ["GET", "POST"], // Allowed HTTP methods
   },
   transports: ["websocket"], // Specify the transport mechanisms
