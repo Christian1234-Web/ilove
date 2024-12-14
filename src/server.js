@@ -31,13 +31,17 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 const io = new Server(server, {
   cors: {
-    origin: "*",
-    methods: ["GET", "POST"],
+    origin: "*", // Allow all origins (update as needed for production security)
+    methods: ["GET", "POST"], // Allowed HTTP methods
   },
+  transports: ["polling", "websocket"], // Specify the transport mechanisms
 });
+
 
 io.on("connection", (socket) => {
   console.log(`User connected ${socket.id}`);
+  socket.on("error", (err) => console.error("Socket error:", err));
+
   addOnlineUser(socket, io);
   getOnlineUser(socket, io);
   sendMessage(socket, io);
