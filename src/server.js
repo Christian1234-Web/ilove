@@ -34,7 +34,7 @@ const io = new Server(server, {
     origin: "*", // Allow all origins (update as needed for production security)
     methods: ["GET", "POST"], // Allowed HTTP methods
   },
-  transports: ["polling", "websocket"], // Specify the transport mechanisms
+  transports: ["websocket"], // Specify the transport mechanisms
 });
 
 
