@@ -31,12 +31,11 @@ app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 const io = new Server(server, {
   cors: {
-    origin: "https://capatuno.com", // Allow all origins (update as needed for production security)
+    origin: ["https://capatuno.com", "http:localhost:3000"],
     methods: ["GET", "POST"], // Allowed HTTP methods
   },
   transports: ["websocket"], // Specify the transport mechanisms
 });
-
 
 io.on("connection", (socket) => {
   console.log(`User connected ${socket.id}`);

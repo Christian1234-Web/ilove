@@ -1,7 +1,9 @@
 const { createMessage } = require("../message/controller");
 const User = require("../user/model");
-// add new user or login user or add user to online array
+const { findRecentChatInteraction } = require("../chat/controller");
 let onlineUsers = [];
+
+// add new user or login user or add user to online array
 const addOnlineUser = async (socket, io) => {
   socket.on("addOnlineUser", (userId) => {
     const user = onlineUsers.find((user) => user.userId === userId);
@@ -11,10 +13,10 @@ const addOnlineUser = async (socket, io) => {
         socketId: socket.id,
       });
     }
-    console.log(onlineUsers)
     io.emit("getOnlineUsers", onlineUsers);
   });
 };
+
 // add remove user or logout user or remove user to online array
 const disConnectUser = async (socket, io) => {
   socket.on("disconnect", () => {
@@ -45,7 +47,17 @@ const sendMessage = async (socket, io) => {
         // Do not send the message
         return socket.emit("error", { message: "Message cannot be sent. Recipient has blocked you." });
       }
-      //do not send the message
+
+      // save message to db.
+      await createMessage({
+        chatId,
+        senderId,
+        recipientId,
+        message,
+        isRead: true,
+        date: new Date(),
+      });
+
       // socket.to(recipientId).emit("receiveMessage", {
       io.emit(recipientId, {
         ...data,
@@ -57,16 +69,15 @@ const sendMessage = async (socket, io) => {
         _id: 0,
       });
 
-      // save message to db.
-       await createMessage({
-        chatId,
-        senderId,
-        recipientId,
-        message,
-        isRead: true,
-        date: new Date(),
-      });
-    
+    // Update recent chat list for sender
+    const senderRecentChat = await findRecentChatInteraction(senderId);
+    io.emit("updateRecentChat", senderRecentChat); // Emit updated chat list to sender
+
+    // Update recent chat list for recipient
+    const recipientRecentChat = await findRecentChatInteraction(recipientId);
+    io.emit("updateRecentChat", recipientRecentChat); // Emit updated chat list to recipient
+
+
     // frontend will check if i block the recipeint
     }
     catch(err){
