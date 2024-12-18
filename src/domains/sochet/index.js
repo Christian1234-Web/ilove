@@ -37,8 +37,9 @@ const sendMessage = async (socket, io) => {
     const { chatId, senderId, message, recipientId } = data;
     
      // Check if the sender is blocked
-      const blockedUsers = await User.blockedUsers; // Assuming `blockedUsers` is an array
-      const isBlocked = blockedUsers.includes(recipientId);
+     const user = await User.findById(senderId); // Ensure the user is found
+     const blockedUsers = user ? user.blockedUsers : [];
+     const isBlocked = blockedUsers.some((blockedUser) => blockedUser.toString() === recipientId);
 
       if (isBlocked) {
         // Do not send the message
