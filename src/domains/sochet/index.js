@@ -31,10 +31,21 @@ const getOnlineUser = async (socket, io) => {
 // send message and // notification
 const sendMessage = async (socket, io) => {
   socket.on("sendMessage", async (data) => {
+    try{
+
+    
     const { chatId, senderId, message, recipientId } = data;
-    const user = onlineUsers.find(user => user.userId === recipientId);
-    const blockedUser = await user.blockedUsers.find((e) => e === senderId);
-    if (!blockedUser) {
+    
+     // Check if the sender is blocked
+      const blockedUsers = await User.blockedUsers; // Assuming `blockedUsers` is an array
+      const isBlocked = blockedUsers.includes(recipientId);
+
+      if (isBlocked) {
+        // Do not send the message
+        return socket.emit("error", { message: "Message cannot be sent. Recipient has blocked you." });
+      }
+      //do not send the message
+      // socket.to(recipientId).emit("receiveMessage", {
       io.emit(recipientId, {
         ...data,
         isRead: false,
@@ -46,7 +57,7 @@ const sendMessage = async (socket, io) => {
       });
 
       // save message to db.
-      const msg = await createMessage({
+       await createMessage({
         chatId,
         senderId,
         recipientId,
@@ -54,8 +65,13 @@ const sendMessage = async (socket, io) => {
         isRead: true,
         date: new Date(),
       });
-    }
+    
     // frontend will check if i block the recipeint
+    }
+    catch(err){
+      console.error("Error in sendMessage:", err);
+      socket.emit("error", { message: "An error occurred while sending the message." });
+    }
   });
 };
 
@@ -76,6 +92,45 @@ const sendNotifications = async (io, data) => {
   });
   // });
 };
+// const sendMessage = async (socket, io) => {
+//   socket.on("sendMessage", async (data) => {
+//     try {
+//       const { chatId, senderId, message, recipientId } = data;
+
+//       // Check if the sender is blocked
+//       const blockedUsers = await User.blockedUsers; // Assuming `blockedUsers` is an array
+//       const isBlocked = blockedUsers.includes(recipientId);
+
+//       if (isBlocked) {
+//         // Do not send the message
+//         return socket.emit("error", { message: "Message cannot be sent. Recipient has blocked you." });
+//       }
+
+//       // Save the message to the database
+//       const msg = await createMessage({
+//         chatId,
+//         senderId,
+//         recipientId,
+//         message,
+//         isRead: false, // Since it's just sent
+//         date: new Date(),
+//       });
+
+//       // Emit the message to the recipient
+//       socket.to(recipientId).emit("receiveMessage", {
+//         ...data,
+//         isRead: false,
+//         date: new Date(),
+//         createdAt: new Date(),
+//         updatedAt: new Date(),
+//         _id: msg._id, // Use the ID from the database
+//       });
+//     } catch (error) {
+//       console.error("Error in sendMessage:", error);
+//       socket.emit("error", { message: "An error occurred while sending the message." });
+//     }
+//   });
+// };
 
 module.exports = {
   addOnlineUser,
