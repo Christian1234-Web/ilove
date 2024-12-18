@@ -4,7 +4,6 @@ const User = require("../user/model");
 let onlineUsers = [];
 const addOnlineUser = async (socket, io) => {
   socket.on("addOnlineUser", (userId) => {
-    console.log('hello')
     const user = onlineUsers.find((user) => user.userId === userId);
     if (!user) {
       onlineUsers.push({
@@ -33,10 +32,9 @@ const getOnlineUser = async (socket, io) => {
 const sendMessage = async (socket, io) => {
   socket.on("sendMessage", async (data) => {
     const { chatId, senderId, message, recipientId } = data;
-    // const user = onlineUsers.find(user => user.userId === recipientId);
-    // const user = await User.findOne({ _id: recipientId });
-    // const blockedUser = await user.blockedUsers.find((e) => e === senderId);
-    // if (!blockedUser) {
+    const user = onlineUsers.find(user => user.userId === recipientId);
+    const blockedUser = await user.blockedUsers.find((e) => e === senderId);
+    if (!blockedUser) {
       io.emit(recipientId, {
         ...data,
         isRead: false,
@@ -48,15 +46,15 @@ const sendMessage = async (socket, io) => {
       });
 
       // save message to db.
-      // const msg = await createMessage({
-      //   chatId,
-      //   senderId,
-      //   recipientId,
-      //   message,
-      //   isRead: true,
-      //   date: new Date(),
-      // });
-    // }
+      const msg = await createMessage({
+        chatId,
+        senderId,
+        recipientId,
+        message,
+        isRead: true,
+        date: new Date(),
+      });
+    }
     // frontend will check if i block the recipeint
   });
 };
