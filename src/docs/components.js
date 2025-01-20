@@ -508,6 +508,55 @@ module.exports = {
           },
         },
       },
+      //create report 
+      CreateReport: {
+        type: "object", // data type
+        properties: {
+          reporterId: {
+            type: "string", // data type
+            description: "user id or sender id", // desc
+            example: "sdk2343k4", // example of a id
+          },
+          reportedUserId: {
+            type: "string", // data type
+            description: "reported user id", // desc
+            example: "32k3k23k232", // example of a id
+          },
+          complain: {
+            type: "string", // data type
+            description: "the user is using my profile pic...", // desc
+            example: "32k3k23k232", // example of a id
+          },
+          complainType: {
+            type: "string", // data type
+            description: "Spam, Harassment, Fraud, Other]", // desc
+            example: "Spam", // example of a id
+          },
+          
+        },
+      },
+      // banned a user
+      BannedUser: {
+        type: "object", // data type
+        properties: {
+          userId: {
+            type: "string", // data type
+            description: "user id or sender id", // desc
+            example: "sdk2343k4", // example of a id
+          },
+        },
+      },
+      //unbanned a user
+      UnBannedUser: {
+        type: "object", // data type
+        properties: {
+          userId: {
+            type: "string", // data type
+            description: "user id or sender id", // desc
+            example: "sdk2343k4", // example of a id
+          },
+        },
+      },
       // error model
       Error: {
         type: "object", //data type

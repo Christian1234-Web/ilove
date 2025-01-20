@@ -80,6 +80,17 @@ const loginUser = async ({ username, password }, res) => {
           data: { user, accessToken: null },
         });
       }
+      if (user.isBan === true) {
+
+        return res.json({
+          status: "PENDING",
+          message:
+            `We regret to inform you that your account has been temporarily suspended due to a violation of our policies
+            please contact our customer support team at <i>customer.service.ilove@gmail.com</i>
+            `,
+          data: { user, accessToken: null },
+        });
+      }
       const tokenPayload = {
         email: user.email,
       };
@@ -236,6 +247,56 @@ const blockUser = async (data) => {
   } catch (err) {
     throw err;
   }
+
+};
+// ban a user
+const banUser = async (userId) => {
+  try {
+    const user = await User.findOne({ _id: userId });
+   user.isBan = true;
+   user.save();
+   const mailoptions = {
+    from: process.env.AUTH_EMAIL,
+    to: user.email,
+    subject: "Account Suspension Notice",
+    html: `<p>Hi <strong>${user.username}</strong>,</p>
+           <p>We regret to inform you that your account has been temporarily suspended due to a violation of our policies.</p>
+           <p>If you believe this action was taken in error or need further clarification, please contact our customer support team at <i>customer.service.ilove@gmail.com</i>.</p>
+           <p>We appreciate your cooperation and look forward to resolving this matter.</p>
+           <br>
+           <p>Best regards,</p>
+           <p><strong>The iLove Support Team</strong></p>`,
+  };
+  
+  await sendMail(mailoptions);
+   return user;
+  } catch (err) {
+    throw err;
+  }
+};
+// unban a user
+const unBanUser = async (userId) => {
+  try {
+    const user = await User.findOne({ _id: userId });
+   user.isBan = false;
+   user.save();
+   const mailoptions = {
+    from: process.env.AUTH_EMAIL,
+    to: user.email,
+    subject: "Your Account Has Been Unbanned",
+    html: `<p>Hi <strong>${user.username}</strong>,</p>
+           <p>We are pleased to inform you that your account has been successfully reinstated. You can now log in and continue using our services without any restrictions.</p>
+           <p>If you have any questions or concerns, feel free to contact our customer support team at <i>customer.service.ilove@gmail.com</i>.</p>
+           <p>Thank you for being a valued member of our community.</p>
+           <br>
+           <p>Best regards,</p>
+           <p><strong>The iLove Team</strong></p>`,
+  };
+  await sendMail(mailoptions);
+   return user;
+  } catch (err) {
+    throw err;
+  }
 };
 // un block a user
 const unBlockUser = async (data) => {
@@ -258,6 +319,8 @@ const unBlockUser = async (data) => {
 module.exports = {
   unBlockUser,
   blockUser,
+  unBanUser,
+  banUser,
   createNewUser,
   updatePassword,
   getAllUser,

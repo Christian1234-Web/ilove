@@ -11,6 +11,8 @@ const {
   getSingleUser,
   blockUser,
   unBlockUser,
+  banUser,
+  unBanUser,
 } = require("./controller");
 const router = express.Router();
 const {
@@ -187,6 +189,42 @@ router.post("/unblock", async (req, res) => {
       status: "SUCCESS",
       message:
         "User unblocked successfully, you can now be able send message to this user",
+      data: response,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "FAILED",
+      message: err.message,
+    });
+  }
+});
+// banned a user
+router.post("/ban", async (req, res) => {
+  const {userId} = req.body;
+  try {
+    const response = await banUser(userId);
+    res.json({
+      status: "SUCCESS",
+      message:
+        "User ban successfully",
+      data: response,
+    });
+  } catch (err) {
+    res.status(400).json({
+      status: "FAILED",
+      message: err.message,
+    });
+  }
+});
+// unban a user
+router.post("/unban", async (req, res) => {
+  const {userId} = req.body;
+  try {
+    const response = await unBanUser(userId);
+    res.json({
+      status: "SUCCESS",
+      message:
+        "User unban successfully",
       data: response,
     });
   } catch (err) {

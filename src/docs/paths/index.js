@@ -74,6 +74,15 @@ const addOnlineUser = require("../runtime-message/add-online-user");
 const disconnectScoket = require("../runtime-message/disconnect-scoket");
 const getOnlineUsers = require("../runtime-message/get-online-users");
 const getRuntimeNotification = require("../runtime-message/get-notification");
+//report 
+const createReport = require("../report/create-report");
+const bannedUser = require("../report/banned-a-user");
+const unBannedUser = require("../report/unbanned-a-user");
+const getAllReport = require("../report/get-all-report");
+const getReportByReportId = require("../report/get-report-by-report-id");
+const getReportByUserId = require("../report/get-report-by-user-id");
+
+
 
 // module
 module.exports = {
@@ -288,6 +297,25 @@ module.exports = {
     },
     "/user/unblock": {
       ...unblockUser,
+    },
+    //report & banned
+    "/report/new": {
+      ...createReport,
+    },
+    "/user/ban": {
+      ...bannedUser,
+    },
+    "/user/unban": {
+      ...unBannedUser,
+    },
+    "/report/all": {
+      ...getAllReport,
+    },
+    "/report/reportId/{id}": {
+      ...getReportByReportId,
+    },
+    "/report/reporter/{id}": {
+      ...getReportByUserId,
     },
   },
 };

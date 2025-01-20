@@ -16,9 +16,11 @@ const ImageRoutes = require("../domains/upload_image");
 const chatRoutes = require("../domains/chat");
 const messageRoutes = require("../domains/message");
 const friendRequestRoutes = require("../domains/friend_request");
+const reportRoutes = require("../domains/report");
 
 
 router.use("/user", userRoutes);
+router.use("/report", reportRoutes);
 router.use("/phone", phoneRoutes);
 router.use("/email", emailRoutes);
 router.use("/kyc", kycRoutes);

@@ -6,7 +6,6 @@ const sendMail = require("../../util/sendMail");
 const comparedHashedData = require("../../util/compareHashedData");
 
 const sendOTPVerificationEmail = async ({ userId, email, subject, text }) => {
-  console.log(email, "hello");
   try {
     email = email.toLowerCase();
     // mail options
