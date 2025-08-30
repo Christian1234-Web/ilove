@@ -31,7 +31,9 @@ app.get("/", async (req, res) => {
 app.get("/csae", async (req, res) => {
   res.sendFile(path.resolve("./src/child_safety_policy.html"));
 });
-
+app.get("/policy", async (req, res) => {
+  res.sendFile(path.resolve("./src/privacy_policy.html"));
+});
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 const io = new Server(server, {
