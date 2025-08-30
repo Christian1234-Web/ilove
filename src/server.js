@@ -27,6 +27,11 @@ app.use(express.static(path.join(__dirname, "/upload/images")));
 app.get("/", async (req, res) => {
   res.sendFile(path.resolve("./src/index.html"));
 });
+
+app.get("/csae", async (req, res) => {
+  res.sendFile(path.resolve("./src/child_safety_policy.html"));
+});
+
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(docs));
 
 const io = new Server(server, {
