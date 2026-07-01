@@ -8,7 +8,7 @@ const {
 const generateOTP = require("../../util/generateOTP");
 
 router.post("/resend-otp", async (req, res) => {
-  const { userId, email } = data;
+  const { userId, email } = req.body;
   const otp = await generateOTP();
   const subject = "Verify Your Email";
   const text = `<p>
