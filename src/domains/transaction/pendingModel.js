@@ -30,6 +30,7 @@ const pendingTransactionSchema = new mongoose.Schema(
       type: Boolean,
       default: null
     },
+    type: { type: String, enum: ['ledger', 'p2p', 'withdrawal'], required: true },
     currency: {
       type: String,
       required: [true, "currency is required"],
@@ -40,7 +41,8 @@ const pendingTransactionSchema = new mongoose.Schema(
     
     paymentStatus: {
       type: String,
-      default: "pending"
+      default: "pending",
+      enum: ['pending', 'completed', 'cancelled']
     },
     paymentGateway: {
       type: String,

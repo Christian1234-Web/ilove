@@ -53,6 +53,7 @@ const fundWallet = async ({
 
 const verifyPayment = async (reference, userId) => {
   try {
+    // isinflow = true
     const user = await User.findOne({ _id: userId });
     if (!user) {
       throw Error("User not found");

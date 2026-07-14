@@ -67,5 +67,16 @@ router.get("/all", async (req, res) => {
     });
   }
 });
+const walletController = require('../controllers/wallet.controller');
+const { protectAdmin } = require('../middlewares/auth');
+
+// Audit list of all user wallets
+router.get('/all', protectAdmin, walletController.getAllWallets);
+
+// Direct credit/debit adjustment
+router.post('/adjust', protectAdmin, walletController.adjustWalletBalance);
+
+// Freeze or unlock a wallet
+router.put('/freeze/:id', protectAdmin, walletController.toggleWalletFreeze);
 
 module.exports = router;

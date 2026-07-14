@@ -12,7 +12,7 @@ const walletTransactionSchema = new mongoose.Schema(
       required: true,
     },
 
-    isInflow: { type: Boolean },
+    isInflow: { type: Boolean, default:null },
 
     paymentMethod: {
        type: String,

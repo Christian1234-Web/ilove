@@ -18,7 +18,33 @@ const messageRoutes = require("../domains/message");
 const friendRequestRoutes = require("../domains/friend_request");
 const reportRoutes = require("../domains/report");
 
+// const auth = require("../domains/middlewares/auth");
 
+// const admin = require("../middleware/admin");
+
+// router.use(auth);
+
+// router.use(admin);
+
+//admin
+router.use('/admin/wallet', require('./wallet.routes'));
+router.use('/admin/dashboard', require('./dashboard.routes'));
+router.use('/admin/chat', require('./chat.routes'));
+router.use('/admin/transaction', require('./transaction.routes'));
+router.use('/admin/verification', require('./verification.routes'));
+router.use('/admin/transaction', require('./transaction.routes'));
+router.use('/admin/user', require('./user.routes'));
+router.use('/admin/moderation', require('./moderation.routes'));
+router.use('/admin', require('./config.routes'));
+router.use('/admin', require('./settings.routes'));
+router.use('/admin', require('./adminAuth.routes'));
+
+
+
+
+
+
+//end
 router.use("/user", userRoutes);
 router.use("/report", reportRoutes);
 router.use("/phone", phoneRoutes);

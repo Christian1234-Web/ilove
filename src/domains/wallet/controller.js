@@ -84,6 +84,7 @@ const fundWalletByWallet = async (data) => {
   }
 };
 
+
 module.exports = {
   getAllWallet,
   getUserWallet,

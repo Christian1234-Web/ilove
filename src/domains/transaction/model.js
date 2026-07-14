@@ -23,6 +23,8 @@ const transactionSchema = new mongoose.Schema(
     phone: {
       type: String,
     },
+    isInflow: { type: Boolean, default:null },
+
     amount: {
       type: String,
       required: [true, "amount is required"],
@@ -31,6 +33,12 @@ const transactionSchema = new mongoose.Schema(
       type: String,
       required: [true, "currency is required"],
       enum: ["NGN", "USD", "EUR", "GBP"],
+    },
+     type: {
+      type: String,
+      required: [true, "type is required"],
+      enum: ["all", "ledger", "p2p", "withdrawals"],
+      default:"all"
     },
     paymentStatus: {
       type: String,

@@ -16,6 +16,8 @@ const {
   disConnectUser,
   getOnlineUser,
   sendMessage,
+    setSocketIO,
+
 } = require("./domains/sochet");
 
 app.use(cors());
@@ -43,6 +45,7 @@ const io = new Server(server, {
   },
   transports: ["websocket"], // Specify the transport mechanisms
 });
+  setSocketIO(io);
 
 io.on("connection", (socket) => {
   console.log(`User connected ${socket.id}`);

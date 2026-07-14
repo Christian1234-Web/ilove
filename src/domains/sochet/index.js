@@ -3,6 +3,21 @@ const User = require("../user/model");
 const { findRecentChatInteraction } = require("../chat/controller");
 let onlineUsers = [];
 
+
+let socketIO = null;
+
+const setSocketIO = (io) => {
+  socketIO = io;
+};
+
+const getSocketIO = () => {
+  if (!socketIO) {
+    throw new Error("Socket.io has not been initialized.");
+  }
+
+  return socketIO;
+};
+
 // add new user or login user or add user to online array
 const addOnlineUser = async (socket, io) => {
   socket.on("addOnlineUser", (userId) => {
@@ -150,4 +165,6 @@ module.exports = {
   disConnectUser,
   sendMessage,
   sendNotifications,
+    setSocketIO,
+  getSocketIO,
 };
