@@ -46,7 +46,7 @@ io.emit("admin:new-warning", systemNotice);
   } catch (error) {
     next(error);
   }
-};
+}; 
 
 // 3. GET /admin/chat/flagged
 // Function: Retrieve lists of active/reported text channels.

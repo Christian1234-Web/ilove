@@ -1,5 +1,5 @@
 const SafetyBan = require('../safetyBan/model');
-const Photo = require('../photo/model');
+const { PostImage: Photo } = require('../upload_image/model');
 const User = require('../user/model');
 
 exports.getSafetySummary = async (req, res, next) => {
@@ -40,6 +40,66 @@ exports.getSafetySummary = async (req, res, next) => {
         }
       }
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @desc    Create a new hardware UUID or IP address systemic ban
+ * @route   POST /api/safety/ban
+ * @access  Private (Admin Only)
+ */
+exports.createSafetyBan = async (req, res, next) => {
+  try {
+    const { targetType, targetValue, reason } = req.body;
+    const adminId = req.adminUser.id; // From your auth middleware (e.g. protectAdmin)
+
+    // 1. Payload validation
+    if (!targetType || !['ip', 'hardware_uuid'].includes(targetType)) {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Invalid target type. Must be either "ip" or "hardware_uuid".'
+      });
+    }
+
+    if (!targetValue || targetValue.trim() === '') {
+      return res.status(400).json({
+        status: 'error',
+        message: 'Target value is required.'
+      });
+    }
+
+    if (!reason || reason.trim() === '') {
+      return res.status(400).json({
+        status: 'error',
+        message: 'A clear reason for imposing this safety ban must be provided.'
+      });
+    }
+
+    // 2. Prevent duplicate bans
+    const existingBan = await SafetyBan.findOne({ targetValue });
+    if (existingBan) {
+      return res.status(409).json({
+        status: 'error',
+        message: `This ${targetType} is already banned in the system database.`
+      });
+    }
+
+    // 3. Create and register the ban configuration
+    const newBan = await SafetyBan.create({
+      targetType,
+      targetValue,
+      reason,
+      bannedBy: adminId
+    });
+
+    return res.status(201).json({
+      status: 'success',
+      message: `${targetType === 'ip' ? 'IP Address' : 'Hardware identifier'} has been blacklisted system-wide.`,
+      data: newBan
+    });
+
   } catch (error) {
     next(error);
   }

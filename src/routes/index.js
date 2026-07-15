@@ -35,6 +35,8 @@ router.use('/admin/verification', require('./verification.routes'));
 router.use('/admin/transaction', require('./transaction.routes'));
 router.use('/admin/user', require('./user.routes'));
 router.use('/admin/moderation', require('./moderation.routes'));
+router.use('/admin/safety', require('./safety.routes'));
+
 router.use('/admin', require('./config.routes'));
 router.use('/admin', require('./settings.routes'));
 router.use('/admin', require('./adminAuth.routes'));

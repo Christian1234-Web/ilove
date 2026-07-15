@@ -69,7 +69,7 @@ exports.loginAdmin = async (req, res, next) => {
 
     // Issue cryptographic signature
     const token = jwt.sign(
-      { id: admin._id, role: admin.role },
+      { id: admin._id, role: admin.role, username: admin.name },
       process.env.JWT_SECRET || 'fallback_super_secret_key_change_me',
       { expiresIn: process.env.JWT_EXPIRES_IN || '1d' }
     );

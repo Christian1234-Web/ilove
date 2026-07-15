@@ -1,7 +1,7 @@
 const User = require('../user/model');
 const Wallet = require('../wallet/model');
 const Message = require('../message/model');
-const Photo = require('../photo/model');
+const { PostImage: Photo } = require('../upload_image/model');
 const VerificationRequest = require('../verificationRequest/model');
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');

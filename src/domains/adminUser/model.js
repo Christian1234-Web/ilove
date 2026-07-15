@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 const AdminUserSchema = new mongoose.Schema({
   name: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true,select: false }, // Excludes password by default from queries },
-  role: { type: String, enum: ['admin', 'moderator', 'superadmin'], default: 'moderator', default:"admin" },
+role: { type: String, enum: ['admin', 'moderator', 'superadmin'], default: 'moderator', default:"admin" },
   active: { type: Boolean, default: true }
 }, { timestamps: true });
 

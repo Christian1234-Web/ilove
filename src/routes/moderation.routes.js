@@ -11,4 +11,7 @@ router.post('/photos/moderate', protectAdmin, moderationController.moderatePhoto
 router.get('/reports', protectAdmin, moderationController.getUserReports);
 router.post('/reports/resolve', protectAdmin, moderationController.resolveUserReport);
 
+// 📤 User Action: File a report
+router.post('/reports/create', moderationController.createUserReport);
+
 module.exports = router;

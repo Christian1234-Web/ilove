@@ -9,7 +9,7 @@ const ProfileImageSchema = new mongoose.Schema({
     },
   },
 { timestamps: true }
-);
+); 
 
 const CoverImageSchema = new mongoose.Schema({
     image: { type: String, required:true },
@@ -28,6 +28,12 @@ const PostImageSchema = new mongoose.Schema({
     required: true,
     ref: "User",
   },
+  status: { 
+    type: String, 
+    enum: ['pending', 'approved', 'flagged', 'removed'], 
+    default: 'pending' 
+  },
+  flaggedReason: { type: String, default: '' } 
 },
 { timestamps: true }
 );

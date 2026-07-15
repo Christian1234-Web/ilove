@@ -1,7 +1,7 @@
 const Interest = require('../interest/model');
 const Bank = require('../bank/model');
 const NotificationLog = require('../notificationLog/model');
-
+const { getSocketIO } = require('../sochet/index'); // Adjust this path to where your socket.js is located
 // 1. GET /admin/interest/all
 exports.getAllInterests = async (req, res, next) => {
   try {
@@ -68,20 +68,45 @@ exports.toggleBankStatus = async (req, res, next) => {
 };
 
 
+// broadcast push notification to all online users
 exports.broadcastPushNotification = async (req, res, next) => {
   try {
     const { target, title, message } = req.body;
 
-    // 1. Log the campaign to the DB[cite: 1]
+    if (!title || !message) {
+      return res.status(400).json({ status: 'error', message: 'Title and message are required.' });
+    }
+
+    // 1. Log the campaign to your database
     await NotificationLog.create({ target, title, message });
 
-    // 2. Integration Trigger:
-    // This is where you connect to Firebase Cloud Messaging (FCM) or Expo Push Service:
+    // 2. Real-time Socket.io Broadcast
+    // Grab your initialized socket instance using your custom getter
+    const io = getSocketIO();
+
+    const payload = {
+      title,
+      message,
+      target,
+      createdAt: new Date(),
+    };
+
+    if (target && target !== 'all') {
+      // Broadcast exclusively to clients who have joined a specific targeting room
+      // (e.g., users who called socket.join('premium_users') on the frontend)
+      io.to(target).emit('new_notification', payload);
+    } else {
+      // Broadcast globally to all online socket connections
+      io.emit('new_notification', payload);
+    }
+
+    // 3. Optional: Mobile Push notification services
     // admin.messaging().sendToTopic(target, { notification: { title, body: message } })
 
     return res.status(200).json({
       status: 'success',
-      message: 'Push notification sent successfully'
+      message: 'Push notification logged and socket broadcasted successfully',
+      data: payload
     });
   } catch (error) {
     next(error);
