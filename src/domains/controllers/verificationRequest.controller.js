@@ -1,5 +1,6 @@
 const VerificationRequest = require('../verificationRequest/model');
 const User = require('../user/model');
+const AuditLog = require('../auditLog/model');
 const mongoose = require('mongoose');
 
 // 1. GET /admin/verification/pending
@@ -30,58 +31,60 @@ exports.getPendingVerifications = async (req, res, next) => {
 
 // 2. POST /admin/verification/review
 // Function: Approve or reject an active verification request[cite: 1].
-exports.reviewVerificationRequest = async (req, res, next) => {
-  const { requestId, status, reason } = req.body; //[cite: 1] // status: 'approved' | 'rejected'[cite: 1]
 
-  if (status === 'rejected' && !reason) { //[cite: 1]
-    return res.status(400).json({ status: 'error', message: 'A rejection reason is required.' }); //[cite: 1]
+// 2. POST /admin/verification/review
+// Function: Approve or reject an active verification request.
+exports.reviewVerificationRequest = async (req, res, next) => {
+  const { requestId, status, reason } = req.body; // status: 'approved' | 'rejected'
+
+  if (!status || !['approved', 'rejected'].includes(status)) {
+    return res.status(400).json({ status: 'error', message: 'Valid status ("approved" or "rejected") is required.' });
   }
 
-  // Use an ACID transaction to guarantee both updates complete or fail together
-  // const session = await mongoose.startSession();
-  // session.startTransaction();
+  if (status === 'rejected' && !reason) {
+    return res.status(400).json({ status: 'error', message: 'A rejection reason is required.' });
+  }
 
   try {
-    // Locate the target verification ticket
-    const request = await VerificationRequest.findById(requestId)
-    // .session(session);
+    // 1. Locate the target verification ticket
+    const request = await VerificationRequest.findById(requestId);
     if (!request) {
-      // await session.abortTransaction();
       return res.status(404).json({ status: 'error', message: 'Verification request not found.' });
     }
     if (request.status !== 'pending') {
-      // await session.abortTransaction();
       return res.status(400).json({ status: 'error', message: 'This ticket has already been processed.' });
     }
 
-    // Update ticket state[cite: 1]
-    request.status = status; //[cite: 1]
-    if (reason) request.reason = reason; //[cite: 1]
-    await request.save(); // { session } this is inside ()
+    // 2. Update ticket state
+    request.status = status;
+    if (reason) request.reason = reason;
+    await request.save();
 
-    // If approved, flip the respective boolean verification field on the User collection[cite: 1]
-    if (status === 'approved') { //[cite: 1]
+    // 3. If approved, flip the respective boolean verification field on the User collection
+    if (status === 'approved') {
       // Converts e.g., 'kyc' type parameter to update 'verificationStatus.kyc' dynamically
       const dynamicField = `verificationStatus.${request.type}`;
       
       await User.findByIdAndUpdate(
         request.userId,
-        { $set: { [dynamicField]: true } },
-        // { session }
-      );
+        { $set: { [dynamicField]: true } }      );
     }
 
-    // Commit changes safely to the cluster database
-    // await session.commitTransaction();
-    // session.endSession();
+    // 4. Automatically create an entry in the System Audit Log to avoid ValidationError
+    await AuditLog.create({
+      adminId: req.adminUser._id || req.adminUser.id, // Pulled from your admin authorization middleware
+      action: status === 'approved' ? 'APPROVE_VERIFICATION' : 'REJECT_VERIFICATION',
+      targetType: 'UserReport', // The schema target category representation for reports/verification review actions
+      targetId: request._id,    // Verification ticket ID (Mongoose ObjectId)
+      ipAddress: req.ip || req.headers['x-forwarded-for'] || '',
+      details: `Admin ${status} the ${request.type} verification request. Reason: ${reason || 'None provided'}`
+    });
 
     return res.status(200).json({
       status: 'success',
-      message: 'Verification ticket processed successfully' //[cite: 1]
+      message: 'Verification ticket processed and logged successfully'
     });
   } catch (error) {
-    // await session.abortTransaction();
-    // session.endSession();
     next(error);
   }
 };

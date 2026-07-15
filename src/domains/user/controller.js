@@ -104,7 +104,7 @@ const loginUser = async ({ username, password }, res) => {
       res.json({
         status: "SUCCESS",
         message: "Sigin successful",
-        data: response,
+        data: { response, isVerified: user.isVerified }, // 👈 true ONLY if both face AND kyc are true
       });
     } else {
       throw Error("Invalid Credentials");
@@ -253,23 +253,23 @@ const blockUser = async (data) => {
 const banUser = async (userId) => {
   try {
     const user = await User.findOne({ _id: userId });
-   user.isBan = true;
-   user.save();
-   const mailoptions = {
-    from: process.env.AUTH_EMAIL,
-    to: user.email,
-    subject: "Account Suspension Notice",
-    html: `<p>Hi <strong>${user.username}</strong>,</p>
+    user.isBan = true;
+    user.save();
+    const mailoptions = {
+      from: process.env.AUTH_EMAIL,
+      to: user.email,
+      subject: "Account Suspension Notice",
+      html: `<p>Hi <strong>${user.username}</strong>,</p>
            <p>We regret to inform you that your account has been temporarily suspended due to a violation of our policies.</p>
            <p>If you believe this action was taken in error or need further clarification, please contact our customer support team at <i>customer.service.ilove@gmail.com</i>.</p>
            <p>We appreciate your cooperation and look forward to resolving this matter.</p>
            <br>
            <p>Best regards,</p>
            <p><strong>The iLove Support Team</strong></p>`,
-  };
-  
-  await sendMail(mailoptions);
-   return user;
+    };
+
+    await sendMail(mailoptions);
+    return user;
   } catch (err) {
     throw err;
   }
@@ -278,22 +278,22 @@ const banUser = async (userId) => {
 const unBanUser = async (userId) => {
   try {
     const user = await User.findOne({ _id: userId });
-   user.isBan = false;
-   user.save();
-   const mailoptions = {
-    from: process.env.AUTH_EMAIL,
-    to: user.email,
-    subject: "Your Account Has Been Unbanned",
-    html: `<p>Hi <strong>${user.username}</strong>,</p>
+    user.isBan = false;
+    user.save();
+    const mailoptions = {
+      from: process.env.AUTH_EMAIL,
+      to: user.email,
+      subject: "Your Account Has Been Unbanned",
+      html: `<p>Hi <strong>${user.username}</strong>,</p>
            <p>We are pleased to inform you that your account has been successfully reinstated. You can now log in and continue using our services without any restrictions.</p>
            <p>If you have any questions or concerns, feel free to contact our customer support team at <i>customer.service.ilove@gmail.com</i>.</p>
            <p>Thank you for being a valued member of our community.</p>
            <br>
            <p>Best regards,</p>
            <p><strong>The iLove Team</strong></p>`,
-  };
-  await sendMail(mailoptions);
-   return user;
+    };
+    await sendMail(mailoptions);
+    return user;
   } catch (err) {
     throw err;
   }
