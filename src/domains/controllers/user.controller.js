@@ -3,6 +3,8 @@ const Wallet = require('../wallet/model');
 const Message = require('../message/model');
 const { PostImage: Photo } = require('../upload_image/model');
 const VerificationRequest = require('../verificationRequest/model');
+const Transaction = require('../transaction/model');
+
 const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 
@@ -44,7 +46,7 @@ exports.getAllUsers = async (req, res, next) => {
 
     // Execute paginated search execution pipeline
     const users = await User.find(matchQuery)
-      .sort({ createdAt: -1 })
+      .sort({ dateCreated: -1 })
       .skip(skip)
       .limit(limit);
 
@@ -62,7 +64,7 @@ exports.getAllUsers = async (req, res, next) => {
       faceVerification: user.verificationStatus?.face || false,
       kycVerification: user.verificationStatus?.kyc || false,
       userType: user.role || "regular",
-      dateCreated: user.createdAt
+      registrationDate: user.dateCreated
     }));
 
     return res.status(200).json({
@@ -79,10 +81,12 @@ exports.getSingleUser = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.id)
       .populate('interests', 'title createdAt');
-
     if (!user) {
       return res.status(404).json({ status: 'error', message: 'User profile not found.' });
     }
+       const wallet = await Wallet.findOne({userId: req.params.id})
+       const transactions = await Transaction.find({userId: req.params.id})
+      const photos = await Photo.find({userId: req.params.id});
 
     return res.status(200).json({
       status: "success",
@@ -107,7 +111,13 @@ exports.getSingleUser = async (req, res, next) => {
         kycVerification: user.verificationStatus?.kyc || false,
         userType: user.role || "regular",
         dateOfBirth: user.dateOfBirth || null,
-        dateCreated: user.createdAt
+        registrationDate: user.dateCreated,
+        wallet: wallet ? {
+          balance: wallet.balance,
+          frozen: wallet.frozen
+        } : null,
+        transactionLedger:transactions,
+        photos: photos
       }
     });
   } catch (error) {
