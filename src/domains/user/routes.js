@@ -26,6 +26,7 @@ router.post("/signup", async (req, res) => {
   try {
     let { username, email, password, phone, address } = req.body;
     username = username.trim();
+    username = username.toLowerCase();
     email = email.trim();
     email = email.toLowerCase();
     password = password.trim();

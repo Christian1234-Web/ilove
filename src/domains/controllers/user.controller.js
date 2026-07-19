@@ -15,7 +15,8 @@ exports.getAllUsers = async (req, res, next) => {
     const limit = parseInt(req.query.limit) || 10;
     const skip = (page - 1) * limit;
     
-    const { search, gender, verification } = req.query;
+    let { search, gender, verification } = req.query;
+    search = search?.toLowerCase();
     let matchQuery = {};
 
     // 1. Search filter (username or email)
@@ -59,10 +60,8 @@ exports.getAllUsers = async (req, res, next) => {
       gender: user.gender || "Not Specified",
       age: user.age || "N/A",
       active: user.active,
-      phoneVerification: user.verificationStatus?.phone || false,
-      emailVerification: user.verificationStatus?.email || false,
-      faceVerification: user.verificationStatus?.face || false,
-      kycVerification: user.verificationStatus?.kyc || false,
+      isVerified: user.isVerified, // 👈 true ONLY if both face AND kyc are true
+      verificationStatus: user.verificationStatus || {},
       userType: user.role || "regular",
       registrationDate: user.dateCreated
     }));
@@ -105,10 +104,8 @@ exports.getSingleUser = async (req, res, next) => {
         address: user.address || "",
         blockedUsers: user.blockedUsers || [],
         interest: user.interests || [],
-        phoneVerification: user.verificationStatus?.phone || false,
-        emailVerification: user.verificationStatus?.email || false,
-        faceVerification: user.verificationStatus?.face || false,
-        kycVerification: user.verificationStatus?.kyc || false,
+        isVerified: user.isVerified, // 👈 true ONLY if both face AND kyc are true
+        verificationStatus: user.verificationStatus || {},
         userType: user.role || "regular",
         dateOfBirth: user.dateOfBirth || null,
         registrationDate: user.dateCreated,

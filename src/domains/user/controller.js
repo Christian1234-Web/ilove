@@ -12,8 +12,9 @@ const {
 // signup // create a new user
 const createNewUser = async (data) => {
   try {
-    const { username, email, password, address, phone } = data;
-
+    let { username, email, password, address, phone } = data;
+    username = username.toLowerCase();
+    email = email.toLowerCase();
     // Checking if user already exists
     const existingUser = await User.findOne({ email });
     const existingUserPhone = await User.findOne({ phone });
@@ -47,6 +48,9 @@ const createNewUser = async (data) => {
 
 const loginUser = async ({ username, password }, res) => {
   try {
+    username = username.trim();
+    password = password.trim();
+    username = username.toLowerCase();
     if (!username || !password) {
       throw Error("Empty fields not allowed");
     }
@@ -59,7 +63,7 @@ const loginUser = async ({ username, password }, res) => {
       user.password
     );
     if (comparedHashedPass === true) {
-      if (user.emailVerification !== true) {
+      if (user.verificationStatus.email !== true) {
         const otp = await generateOTP();
         const subject = "Verify Your Email";
         const text = `<p>

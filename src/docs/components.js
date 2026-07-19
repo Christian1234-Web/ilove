@@ -522,12 +522,12 @@ module.exports = {
             description: "reported user id", // desc
             example: "32k3k23k232", // example of a id
           },
-          complain: {
+          description: {
             type: "string", // data type
             description: "the user is using my profile pic...", // desc
             example: "32k3k23k232", // example of a id
           },
-          complainType: {
+          category: {
             type: "string", // data type
             description: "Spam, Harassment, Fraud, Other]", // desc
             example: "Spam", // example of a id

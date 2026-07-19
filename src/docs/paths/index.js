@@ -76,11 +76,11 @@ const getOnlineUsers = require("../runtime-message/get-online-users");
 const getRuntimeNotification = require("../runtime-message/get-notification");
 //report 
 const createReport = require("../report/create-report");
-const bannedUser = require("../report/banned-a-user");
-const unBannedUser = require("../report/unbanned-a-user");
-const getAllReport = require("../report/get-all-report");
-const getReportByReportId = require("../report/get-report-by-report-id");
-const getReportByUserId = require("../report/get-report-by-user-id");
+// const bannedUser = require("../report/banned-a-user");
+// const unBannedUser = require("../report/unbanned-a-user");
+// const getAllReport = require("../report/get-all-report");
+const getSingleReport = require("../report/get-single-report");
+const getMyReports = require("../report/get-my-reports");
 
 
 
@@ -302,20 +302,20 @@ module.exports = {
     "/report/new": {
       ...createReport,
     },
-    "/user/ban": {
-      ...bannedUser,
+    // "/user/ban": {
+    //   ...bannedUser,
+    // },
+    // "/user/unban": {
+    //   ...unBannedUser,
+    // },
+    // "/report/all": {
+    //   ...getAllReport,
+    // },
+    "/report/reporter/{reporterId}": {
+      ...getMyReports,
     },
-    "/user/unban": {
-      ...unBannedUser,
-    },
-    "/report/all": {
-      ...getAllReport,
-    },
-    "/report/reportId/{id}": {
-      ...getReportByReportId,
-    },
-    "/report/reporter/{id}": {
-      ...getReportByUserId,
+    "/report/single/{reportId}/{userId}": {
+      ...getSingleReport,
     },
   },
 };

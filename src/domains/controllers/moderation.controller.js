@@ -1,5 +1,5 @@
 const { PostImage: Photo } = require('../upload_image/model');
-const UserReport = require('../userReport/model');
+const Report = require('../report/model');
 const AuditLog = require('../auditLog/model');
 const mongoose = require('mongoose');
 const User = require('../user/model');
@@ -65,11 +65,12 @@ exports.moderatePhoto = async (req, res, next) => {
   }
 };
 
+
 // 7.3 GET /admin/moderation/reports
 exports.getUserReports = async (req, res, next) => {
   try {
     // Fetch open user report tickets
-    const reports = await UserReport.find({ status: 'open' })
+    const reports = await Report.find({ status: 'open' })
       .sort({ createdAt: -1 });
 
     const formattedReports = reports.map(rpt => ({
@@ -100,7 +101,7 @@ exports.resolveUserReport = async (req, res, next) => {
       return res.status(400).json({ status: 'error', message: 'Resolution details are required to close a ticket.' });
     }
 
-    const updatedReport = await UserReport.findByIdAndUpdate(
+    const updatedReport = await Report.findByIdAndUpdate(
       reportId,
       { status, resolution },
       { new: true, runValidators: true }
@@ -116,7 +117,7 @@ exports.resolveUserReport = async (req, res, next) => {
       adminName: req.adminUser.username || "administration", // Pulled from your JWT verification middleware[cite: 1]
       action: 'report.resolve',
       targetId: reportId,                            // Required by schema (ObjectId)
-      targetType: 'UserReport',                      // Required by schema  
+      targetType: 'Report',                      // Required by schema  
       ipAddress: req.ip || req.headers['x-forwarded-for'] || 'unknown', // Capture the moderator's IP address
       details: `Report ${reportId} was marked as ${status}. Resolution: ${resolution || 'None'}`
     });
@@ -174,63 +175,3 @@ exports.exportReportData = async (req, res, next) => {
   }
 };
 
-// create report 
-/**
- * @desc    Submit a new abuse/harassment report against another user
- * @route   POST /api/moderation/reports/create
- * @access  Private (Authenticated User)
- */
-exports.createUserReport = async (req, res, next) => {
-  const { reportedUserId, category, description, reporterId } = req.body;
-  // const reporterId = req.user.id; // Directly injected by protectUser middleware
-
-  try {
-    // 1. Basic payload validations
-    if (!reportedUserId) {
-      return res.status(400).json({ status: 'error', message: 'Target reported user ID is required.' });
-    }
-
-    if (!category || !['harassment', 'spam', 'inappropriate_content', 'other'].includes(category)) {
-      return res.status(400).json({ 
-        status: 'error', 
-        message: 'Invalid report category. Must be: harassment, spam, inappropriate_content, or other.' 
-      });
-    }
-
-    if (!description || description.trim().length < 5) {
-      return res.status(400).json({ 
-        status: 'error', 
-        message: 'A detailed description (minimum 5 characters) is required.' 
-      });
-    }
-
-    // 2. Prevent users from reporting themselves
-    if (reporterId === reportedUserId) {
-      return res.status(400).json({ status: 'error', message: 'You cannot file a report against yourself.' });
-    }
-
-    // 3. Verify the target reported user exists in the system
-    const targetUser = await User.findById(reportedUserId);
-    if (!targetUser) {
-      return res.status(404).json({ status: 'error', message: 'The reported user does not exist.' });
-    }
-
-    // 4. Create the open report ticket
-    const newReport = await UserReport.create({
-      reporterId,
-      reportedUserId,
-      category,
-      description,
-      status: 'open'
-    });
-
-    return res.status(201).json({
-      status: 'success',
-      message: 'Report submitted successfully. Administrators have been notified.',
-      data: newReport
-    });
-
-  } catch (error) {
-    next(error);
-  }
-};

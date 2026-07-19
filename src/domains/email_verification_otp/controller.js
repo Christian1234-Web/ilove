@@ -54,10 +54,10 @@ const verifyEmailOTP = async ({ otp, userId }) => {
           throw Error("Invalid code passed. Check your inbox");
         } else {
           // verified success
-          await User.updateOne({ _id: userId }, { emailVerification: true });
+          await User.updateOne({ _id: userId }, { verificationStatus: { email: true } });
           await UserOTPVerification.deleteMany({ userId });
           return {
-            emailerification: "true",
+            emailVerification: true,
             userId,
           };
         }

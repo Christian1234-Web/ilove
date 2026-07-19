@@ -1,18 +1,35 @@
 const express = require("express");
 const router = express.Router();
 const {
-  getReportByReportId,
-  getAllReport,
-  createReport,
-  getReportByUserId,
+  getMyReports,
+  createUserReport,
+  getSingleReport,
 } = require("./controller");
 
-router.post("/new", async (req, res) => {
+router.post('/new', createUserReport);
+
+
+router.get("/reporter/:reporterId", async (req, res) => {
   try {
-    const response = await createReport(req.body);
+    const response = await getMyReports(req.params.reporterId);
     res.json({
       status: "SUCCESS",
-      message: "Report  created successfully",
+      data: response,
+      count: response.length
+    });
+
+  } catch (err) {
+    res.status(400).json({
+      status: "FAILED",
+      message: err.message,
+    });
+  }
+});
+router.get("/single/:reportId/:userId", async (req, res) => {
+  try {
+    const response = await getSingleReport(req.params.reportId, req.params.userId);
+    res.json({
+      status: "SUCCESS",
       data: response,
     });
   } catch (err) {
@@ -23,50 +40,5 @@ router.post("/new", async (req, res) => {
   }
 });
 
-router.get("/reporter/:id", async (req, res) => {
-  try {
-    const response = await getReportByUserId(req.params.id);
-    res.json({
-      status: "SUCCESS",
-      data: response,
-      message:"get report by reporter id successful"
-
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "FAILED",
-      message: err.message,
-    });
-  }
-});
-router.get("/reportId/:id", async (req, res) => {
-  try {
-    const response = await getReportByReportId(req.params.id);
-    res.json({
-      status: "SUCCESS",
-      data: response,
-      message:"get report by report id successful"
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "FAILED",
-      message: err.message,
-    });
-  }
-});
-router.get("/all", async (req, res) => {
-  try {
-    const response = await getAllReport();
-    res.json({
-      status: "SUCCESS",
-      data: response,
-    });
-  } catch (err) {
-    res.status(400).json({
-      status: "FAILED",
-      message: err.message,
-    });
-  }
-});
 
 module.exports = router;

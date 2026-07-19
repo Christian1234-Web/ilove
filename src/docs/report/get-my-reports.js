@@ -2,18 +2,18 @@ module.exports = {
   // method of operation
   get: {
     tags: ["Report"], // operation's tag.
-    description: "Get Report by User Id", // operation's desc.
-    operationId: "getReportByUserId", // unique operation id.
+    description: "Get Report by Report Id", // operation's desc.
+    operationId: "getReportByReportId", // unique operation id.
     parameters: [
-       {
-      name: "id", // name of the param
-      in: "path", // location of the param
-      schema: {
-        $ref: "#/components/schemas/id", // data model of the param
+      {
+        name: "reporterId", // name of the param
+        in: "path", // location of the param
+        schema: {
+          $ref: "#/components/schemas/id", // data model of the param
+        },
+        required: true, // Mandatory param
+        description: "reporter  id", // param desc.
       },
-      required: true, // Mandatory param
-      description: "A  reporter id", // param desc.
-    },
     ], // expected params.
     // expected responses
     responses: {

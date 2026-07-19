@@ -29,7 +29,6 @@ const UserSchema = new mongoose.Schema({
     face: { type: Boolean, default: false }, // 👈 Admin-controlled verification
     kyc: { type: Boolean, default: false }
   },
-  emailVerification: { type: Boolean, default: false },
   isBan: { type: Boolean, default: false },
   phone: { type: String, required: true, unique: true, maxlength: 12 },
   email: { type: String, required: true, unique: true, lowercase: true, trim: true },

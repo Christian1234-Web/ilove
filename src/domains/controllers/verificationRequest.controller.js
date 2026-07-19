@@ -74,7 +74,7 @@ exports.reviewVerificationRequest = async (req, res, next) => {
     await AuditLog.create({
       adminId: req.adminUser._id || req.adminUser.id, // Pulled from your admin authorization middleware
       action: status === 'approved' ? 'APPROVE_VERIFICATION' : 'REJECT_VERIFICATION',
-      targetType: 'UserReport', // The schema target category representation for reports/verification review actions
+      targetType: 'Report', // The schema target category representation for reports/verification review actions
       targetId: request._id,    // Verification ticket ID (Mongoose ObjectId)
       ipAddress: req.ip || req.headers['x-forwarded-for'] || '',
       details: `Admin ${status} the ${request.type} verification request. Reason: ${reason || 'None provided'}`
